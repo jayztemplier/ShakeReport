@@ -32,3 +32,7 @@ Then, copy this line to start the reporter:
 # Usage
 
 **Shake** the iDevice when you want to report something. A Mail Composer view will appear with all the information that will be send. The tester can add some explanation, and change the recipient of the email.
+
+
+# License
+SRReport is available under the MIT license. See the LICENSE file for more info
