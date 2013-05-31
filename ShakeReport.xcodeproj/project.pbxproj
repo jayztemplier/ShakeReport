@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3F2B548B17573D8200DF3193 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548A17573D8200DF3193 /* QuartzCore.framework */; };
 		3F2B548D1757434100DF3193 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548C1757434100DF3193 /* MessageUI.framework */; };
+		3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */; };
+		3F4F09FA1758674F009EA80A /* SRMethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */; };
 		3F5971051757217000971B9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5971041757217000971B9B /* UIKit.framework */; };
 		3F5971071757217000971B9B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5971061757217000971B9B /* Foundation.framework */; };
 		3F5971091757217000971B9B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5971081757217000971B9B /* CoreGraphics.framework */; };
@@ -27,8 +29,6 @@
 		3F5971361757217000971B9B /* ShakeReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5971351757217000971B9B /* ShakeReportTests.m */; };
 		3F597142175721DC00971B9B /* SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F597141175721DC00971B9B /* SRReporter.m */; };
 		3F597143175721DC00971B9B /* SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F597141175721DC00971B9B /* SRReporter.m */; };
-		3F597147175723F900971B9B /* SRMethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F597146175723F900971B9B /* SRMethodSwizzler.m */; };
-		3F597148175723F900971B9B /* SRMethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F597146175723F900971B9B /* SRMethodSwizzler.m */; };
 		3F59714B175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
 		3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
 /* End PBXBuildFile section */
@@ -46,6 +46,8 @@
 /* Begin PBXFileReference section */
 		3F2B548A17573D8200DF3193 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3F2B548C1757434100DF3193 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		3F4F09F71758674F009EA80A /* SRMethodSwizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRMethodSwizzler.h; path = Library/SRMethodSwizzler.h; sourceTree = "<group>"; };
+		3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRMethodSwizzler.m; path = Library/SRMethodSwizzler.m; sourceTree = "<group>"; };
 		3F5971011757217000971B9B /* ShakeReport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShakeReport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F5971041757217000971B9B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3F5971061757217000971B9B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -70,8 +72,6 @@
 		3F5971351757217000971B9B /* ShakeReportTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShakeReportTests.m; sourceTree = "<group>"; };
 		3F597140175721DC00971B9B /* SRReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRReporter.h; path = Library/SRReporter.h; sourceTree = "<group>"; };
 		3F597141175721DC00971B9B /* SRReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReporter.m; path = Library/SRReporter.m; sourceTree = "<group>"; };
-		3F597145175723F900971B9B /* SRMethodSwizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRMethodSwizzler.h; sourceTree = "<group>"; };
-		3F597146175723F900971B9B /* SRMethodSwizzler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRMethodSwizzler.m; sourceTree = "<group>"; };
 		3F597149175725F000971B9B /* UIWindow+SRReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+SRReporter.h"; path = "Library/UIWindow+SRReporter.h"; sourceTree = "<group>"; };
 		3F59714A175725F000971B9B /* UIWindow+SRReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+SRReporter.m"; path = "Library/UIWindow+SRReporter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,8 +196,8 @@
 		3F597144175723E600971B9B /* Swizzler */ = {
 			isa = PBXGroup;
 			children = (
-				3F597145175723F900971B9B /* SRMethodSwizzler.h */,
-				3F597146175723F900971B9B /* SRMethodSwizzler.m */,
+				3F4F09F71758674F009EA80A /* SRMethodSwizzler.h */,
+				3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */,
 			);
 			name = Swizzler;
 			sourceTree = "<group>";
@@ -317,8 +317,8 @@
 				3F5971151757217000971B9B /* SRAppDelegate.m in Sources */,
 				3F5971211757217000971B9B /* SRViewController.m in Sources */,
 				3F597142175721DC00971B9B /* SRReporter.m in Sources */,
-				3F597147175723F900971B9B /* SRMethodSwizzler.m in Sources */,
 				3F59714B175725F000971B9B /* UIWindow+SRReporter.m in Sources */,
+				3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,8 +328,8 @@
 			files = (
 				3F5971361757217000971B9B /* ShakeReportTests.m in Sources */,
 				3F597143175721DC00971B9B /* SRReporter.m in Sources */,
-				3F597148175723F900971B9B /* SRMethodSwizzler.m in Sources */,
 				3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */,
+				3F4F09FA1758674F009EA80A /* SRMethodSwizzler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
