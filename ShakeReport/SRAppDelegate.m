@@ -13,7 +13,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[SRReporter reporter] startListener];
+    SRReporter *reporter = [SRReporter reporter];
+    [reporter setDefaultEmailAddress:@"templier.jeremy@gmail.com"];
+//    [reporter setUseHTMLReport:NO];   // default is YES
+    [reporter startListener];
     return YES;
 }
 							

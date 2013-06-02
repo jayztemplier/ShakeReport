@@ -13,9 +13,10 @@
 
 @interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate>
 
+@property (nonatomic, strong) NSString *defaultEmailAddress;
+@property (nonatomic, assign) BOOL useHTMLReport;
+
 + (id)reporter;
-
-
 - (void)startListener;
 - (void)sendNewReport;
 - (void)saveToCrashFile:(NSString *)crashContent;

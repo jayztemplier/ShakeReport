@@ -39,6 +39,15 @@ void uncaughtExceptionHandler(NSException *exception) {
     return __sharedInstance;
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _useHTMLReport = YES;
+    }
+    return self;
+}
+
 - (void)startListener
 {
     [self startLog2File];
@@ -166,7 +175,9 @@ void uncaughtExceptionHandler(NSException *exception) {
     mailController.mailComposeDelegate = self;
     mailController.delegate = self;
     [mailController setSubject:@"[SRReporter] New Report"];
-    [mailController setToRecipients:@[@"templier.jeremy@gmail.com"]];
+    if (_defaultEmailAddress) {
+        [mailController setToRecipients:@[_defaultEmailAddress]];
+    }
     mailController.modalPresentationStyle = UIModalPresentationPageSheet;
     
     UIImage *screenshot = [self screenshot];
@@ -188,14 +199,21 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     
     // body
-    NSString *htmlFilePath = [[NSBundle mainBundle] pathForResource:@"report" ofType:@"html"];
-    NSString *bodyString = [NSString stringWithContentsOfFile:htmlFilePath encoding:NSUTF8StringEncoding error:nil];
-    NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
-    NSString *bodyWithInformation = [NSString stringWithFormat:bodyString, base64ImageString, [crashReport toHTML], [viewDump toHTML]];
-    [mailController setMessageBody:bodyWithInformation isHTML:YES];
+    if (_useHTMLReport) {
+        NSString *htmlFilePath = [[NSBundle mainBundle] pathForResource:@"report" ofType:@"html"];
+        NSString *bodyString = [NSString stringWithContentsOfFile:htmlFilePath encoding:NSUTF8StringEncoding error:nil];
+        NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
+        NSString *bodyWithInformation = [NSString stringWithFormat:bodyString,
+                                         base64ImageString,
+                                         (crashReport ? [crashReport toHTML] : @"No Crash"),
+                                         [viewDump toHTML],
+                                         [logs toHTML]];
+        [mailController setMessageBody:bodyWithInformation isHTML:YES];
+    } else {
+        [mailController setMessageBody:@"Hey! I noticed something wrong with the app, here is some information." isHTML:NO];
+    }
 
-    
-     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController presentViewController:mailController animated:YES completion:NO];
 }
 
