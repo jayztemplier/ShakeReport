@@ -9,6 +9,8 @@
 #import "SRReporter.h"
 #import "SRMethodSwizzler.h"
 #import "UIWindow+SRReporter.h"
+#import "NSData+Base64.h"
+#import "NSString+HTML.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define kCrashFlag @"kCrashFlag"
@@ -164,13 +166,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     mailController.mailComposeDelegate = self;
     mailController.delegate = self;
     [mailController setSubject:@"[SRReporter] New Report"];
-    [mailController setMessageBody:@"See Attached files" isHTML:NO];
     [mailController setToRecipients:@[@"templier.jeremy@gmail.com"]];
     mailController.modalPresentationStyle = UIModalPresentationPageSheet;
     
     UIImage *screenshot = [self screenshot];
-    NSData *exportData = UIImageJPEGRepresentation(screenshot ,1.0);
-    [mailController addAttachmentData:exportData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
+    NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
+    [mailController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
     
     NSString *logs = [self logs];
     NSData* logsData = [logs dataUsingEncoding:NSUTF8StringEncoding];
@@ -185,7 +186,16 @@ void uncaughtExceptionHandler(NSException *exception) {
         NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
         [mailController addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
     }
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    
+    // body
+    NSString *htmlFilePath = [[NSBundle mainBundle] pathForResource:@"report" ofType:@"html"];
+    NSString *bodyString = [NSString stringWithContentsOfFile:htmlFilePath encoding:NSUTF8StringEncoding error:nil];
+    NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
+    NSString *bodyWithInformation = [NSString stringWithFormat:bodyString, base64ImageString, [crashReport toHTML], [viewDump toHTML]];
+    [mailController setMessageBody:bodyWithInformation isHTML:YES];
+
+    
+     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController presentViewController:mailController animated:YES completion:NO];
 }
 
