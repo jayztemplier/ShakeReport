@@ -49,6 +49,16 @@ You can configure a little the reporter in order to set the default email addres
 </div>
 <!-- MacBuildServer Install Button -->
 
+# Use it with a Backend
+You can also use Shake Report with a backend. And guess what!? It's open source too!
+https://github.com/jayztemplier/ShakeReportServer
+
+To send the reports to the server, setup the listener like that:
+	
+    SRReporter *reporter = [SRReporter reporter];
+    // Send data to a Server instead of displaying the mail composer
+    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
+    [reporter startListenerConnectedToBackendURL:url];
 
 # License
 SRReport is available under the MIT license. See the LICENSE file for more info
