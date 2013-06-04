@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3532E6A9175AFEB3006C5F45 /* report.html in Resources */ = {isa = PBXBuildFile; fileRef = 3532E6A8175AFEB3006C5F45 /* report.html */; };
 		3532E6AA175AFEB3006C5F45 /* report.html in Resources */ = {isa = PBXBuildFile; fileRef = 3532E6A8175AFEB3006C5F45 /* report.html */; };
+		35477F6D175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		35477F6E175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; };
 		35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		3532E6A8175AFEB3006C5F45 /* report.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = report.html; sourceTree = "<group>"; };
+		35477F6B175DCB860069D3AC /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		35477F6C175DCB860069D3AC /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		35F48737175B0F1100E8F4EA /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Library/NSData+Base64.h"; sourceTree = "<group>"; };
 		35F48738175B0F1100E8F4EA /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Library/NSData+Base64.m"; sourceTree = "<group>"; };
 		35F4873C175B10C500E8F4EA /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+HTML.h"; path = "Library/NSString+HTML.h"; sourceTree = "<group>"; };
@@ -122,6 +126,15 @@
 			path = Library/html;
 			sourceTree = "<group>";
 		};
+		35477F6A175DCB5F0069D3AC /* dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				35477F6B175DCB860069D3AC /* JSONKit.h */,
+				35477F6C175DCB860069D3AC /* JSONKit.m */,
+			);
+			name = dependencies;
+			sourceTree = "<group>";
+		};
 		35F4873B175B10AB00E8F4EA /* helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +181,7 @@
 		3F59710A1757217000971B9B /* ShakeReport */ = {
 			isa = PBXGroup;
 			children = (
+				35477F6A175DCB5F0069D3AC /* dependencies */,
 				3F59713F175721B800971B9B /* library */,
 				3F5971131757217000971B9B /* SRAppDelegate.h */,
 				3F5971141757217000971B9B /* SRAppDelegate.m */,
@@ -356,6 +370,7 @@
 				3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */,
 				35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
 				35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */,
+				35477F6D175DCB860069D3AC /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +384,7 @@
 				3F4F09FA1758674F009EA80A /* SRMethodSwizzler.m in Sources */,
 				35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
 				35F4873F175B10C500E8F4EA /* NSString+HTML.m in Sources */,
+				35477F6E175DCB860069D3AC /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

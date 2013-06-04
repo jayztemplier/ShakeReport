@@ -11,6 +11,7 @@
 #import "UIWindow+SRReporter.h"
 #import "NSData+Base64.h"
 #import "NSString+HTML.h"
+#import "JSONKit.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define kCrashFlag @"kCrashFlag"
@@ -47,6 +48,13 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     return self;
 }
+
+- (void)startListenerConnectedToBackendURL:(NSURL *)url
+{
+    _backendURL = url;
+    [self startListener];
+}
+
 
 - (void)startListener
 {
@@ -87,7 +95,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)sendNewReport
 {
     NSLog(@"Send New Report");
-    [self showMailComposer];
+    if (_backendURL) {
+        [self sendToServer];
+    } else {
+        [self showMailComposer];
+    }
 }
 
 #pragma Crash Report
@@ -153,8 +165,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     [window.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    //    NSData * data = UIImagePNGRepresentation(image);
-    //    [data writeToFile:@"foo.png" atomically:YES];
     return image;
 }
 
@@ -238,5 +248,45 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+#pragma mark ShareReport Server API
+- (void)sendToServer
+{
+    if (!_backendURL) {
+        return;
+    }
+    
+    UIImage *screenshot = [self screenshot];
+    NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
+    NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
+    NSString *logs = [self logs];
+    NSString *viewDump = [self viewHierarchy];
+    NSString *crashReport = [self crashReport];
+    
+    // let's construct the URL
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_backendURL];
+    NSMutableDictionary *reportParams = [NSMutableDictionary dictionary];
+    [reportParams setObject:base64ImageString forKey:@"screenshot"];
+    [reportParams setObject:logs forKey:@"logs"];
+    [reportParams setObject:viewDump forKey:@"dumped_view"];
+    if (crashReport) {
+        [reportParams setObject:crashReport forKey:@"crash_logs"];
+    }
+    NSDictionary *params = @{@"report": reportParams};
+    NSString *paramsString = [params JSONString];
+    NSData *requestData = [NSData dataWithBytes:[paramsString UTF8String] length:[paramsString length]];
+    [request setHTTPBody:requestData];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSLog(@"[Shake Report] Report status:");
+        NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
+        if (data) {
+            NSLog(@"[Shake Report] Response Body: %@", [data objectFromJSONData]);
+        }
+        NSLog(@"[Shake Report] Error: %@", error);
+    }];
+}
 @end

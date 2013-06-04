@@ -17,6 +17,10 @@
     [reporter setDefaultEmailAddress:@"templier.jeremy@gmail.com"];
 //    [reporter setUseHTMLReport:NO];   // default is YES
     [reporter startListener];
+    
+    // Send data to a Server instead of displaying the mail composer
+//    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
+//    [reporter startListenerConnectedToBackendURL:url];
     return YES;
 }
 							
