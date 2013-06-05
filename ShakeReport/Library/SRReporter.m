@@ -58,11 +58,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Logs
 - (void)startLog2File
 {
-//#if TARGET_IPHONE_SIMULATOR == 0
+#if TARGET_IPHONE_SIMULATOR == 0
     NSString *logPath = [self logFilePath];
     [[NSFileManager defaultManager] removeItemAtPath:logPath error:nil];
     freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
-//#endif
+#endif
 }
 
 - (NSString *)logFilePath
@@ -180,32 +180,45 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     mailController.modalPresentationStyle = UIModalPresentationPageSheet;
     
+    // Fetch Screenshot data
     UIImage *screenshot = [self screenshot];
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
-    [mailController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
-    
+
+    // Logs
     NSString *logs = [self logs];
     NSData* logsData = [logs dataUsingEncoding:NSUTF8StringEncoding];
-    [mailController addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
     
+    // View Hierarchy (Root=Window)
     NSString *viewDump = [self viewHierarchy];
     NSData* viewData = [viewDump dataUsingEncoding:NSUTF8StringEncoding];
-    [mailController addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
     
+    // Crash Report if we registered a crash
     NSString *crashReport = [self crashReport];
-    if (crashReport) {
-        NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
-        [mailController addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
+    if (!crashReport) {
+        crashReport = @"No Crash";
     }
+    NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // We attache all the information to the email
+    [mailController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
+    [mailController addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
+    [mailController addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
+    [mailController addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
     
     // body
     if (_useHTMLReport) {
+        if (!logs) {
+            logs = @"Empty";
+        }
+        if (!viewDump) {
+            viewDump = @"Empty";
+        }
         NSString *htmlFilePath = [[NSBundle mainBundle] pathForResource:@"report" ofType:@"html"];
         NSString *bodyString = [NSString stringWithContentsOfFile:htmlFilePath encoding:NSUTF8StringEncoding error:nil];
         NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
         NSString *bodyWithInformation = [NSString stringWithFormat:bodyString,
                                          base64ImageString,
-                                         (crashReport ? [crashReport toHTML] : @"No Crash"),
+                                         [crashReport toHTML],
                                          [viewDump toHTML],
                                          [logs toHTML]];
         [mailController setMessageBody:bodyWithInformation isHTML:YES];
