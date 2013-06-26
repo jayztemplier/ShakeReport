@@ -15,6 +15,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define kCrashFlag @"kCrashFlag"
+#define SR_LOGS_ENABLED NO
+
 void uncaughtExceptionHandler(NSException *exception) {
     NSMutableString *crashString = [NSMutableString string];
     [crashString appendString:@"-------------- CRASH --------------\n"];
@@ -93,7 +95,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (void)sendNewReport
 {
-    NSLog(@"Send New Report");
+    if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
         [self sendToServer];
     } else {
@@ -272,12 +274,14 @@ void uncaughtExceptionHandler(NSException *exception) {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
-        NSLog(@"[Shake Report] Report status:");
-        NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
-        if (data) {
-            NSLog(@"[Shake Report] Response Body: %@", [data objectFromJSONData]);
+        if(SR_LOGS_ENABLED) {
+            NSLog(@"[Shake Report] Report status:");
+            NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
+            if (data) {
+                NSLog(@"[Shake Report] Response Body: %@", [data objectFromJSONData]);
+            }
+            NSLog(@"[Shake Report] Error: %@", error);
         }
-        NSLog(@"[Shake Report] Error: %@", error);
     }];
 }
 @end
