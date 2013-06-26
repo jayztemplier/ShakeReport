@@ -15,7 +15,6 @@
 
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
-@property (nonatomic, assign) BOOL useHTMLReport;
 
 + (id)reporter;
 

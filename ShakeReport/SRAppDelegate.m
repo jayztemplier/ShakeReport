@@ -15,7 +15,6 @@
 {
     SRReporter *reporter = [SRReporter reporter];
     [reporter setDefaultEmailAddress:@"templier.jeremy@gmail.com"];
-//    [reporter setUseHTMLReport:NO];   // default is YES
     [reporter startListener];
     
     // Send data to a Server instead of displaying the mail composer

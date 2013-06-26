@@ -44,7 +44,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     self = [super init];
     if (self) {
-        _useHTMLReport = YES;
     }
     return self;
 }
@@ -214,27 +213,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [mailController addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
     [mailController addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
     [mailController addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
-    
-    // body
-    if (_useHTMLReport) {
-        if (!logs) {
-            logs = @"Empty";
-        }
-        if (!viewDump) {
-            viewDump = @"Empty";
-        }
-        NSString *htmlFilePath = [[NSBundle mainBundle] pathForResource:@"report" ofType:@"html"];
-        NSString *bodyString = [NSString stringWithContentsOfFile:htmlFilePath encoding:NSUTF8StringEncoding error:nil];
-        NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
-        NSString *bodyWithInformation = [NSString stringWithFormat:bodyString,
-                                         base64ImageString,
-                                         [crashReport toHTML],
-                                         [viewDump toHTML],
-                                         [logs toHTML]];
-        [mailController setMessageBody:bodyWithInformation isHTML:YES];
-    } else {
-        [mailController setMessageBody:@"Hey! I noticed something wrong with the app, here is some information." isHTML:NO];
-    }
+    [mailController setMessageBody:@"Hey! I noticed something wrong with the app, here is some information." isHTML:NO];
 
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController presentViewController:mailController animated:YES completion:NO];

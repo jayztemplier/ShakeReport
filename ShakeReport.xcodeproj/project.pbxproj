@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3532E6A9175AFEB3006C5F45 /* report.html in Resources */ = {isa = PBXBuildFile; fileRef = 3532E6A8175AFEB3006C5F45 /* report.html */; };
-		3532E6AA175AFEB3006C5F45 /* report.html in Resources */ = {isa = PBXBuildFile; fileRef = 3532E6A8175AFEB3006C5F45 /* report.html */; };
 		35477F6D175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		35477F6E175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; };
 		35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
@@ -52,7 +50,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3532E6A8175AFEB3006C5F45 /* report.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = report.html; sourceTree = "<group>"; };
 		35477F6B175DCB860069D3AC /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		35477F6C175DCB860069D3AC /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		35F48737175B0F1100E8F4EA /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Library/NSData+Base64.h"; sourceTree = "<group>"; };
@@ -117,15 +114,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3532E6A7175AFEB3006C5F45 /* html */ = {
-			isa = PBXGroup;
-			children = (
-				3532E6A8175AFEB3006C5F45 /* report.html */,
-			);
-			name = html;
-			path = Library/html;
-			sourceTree = "<group>";
-		};
 		35477F6A175DCB5F0069D3AC /* dependencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,7 +218,6 @@
 			isa = PBXGroup;
 			children = (
 				35F4873B175B10AB00E8F4EA /* helper */,
-				3532E6A7175AFEB3006C5F45 /* html */,
 				3F597144175723E600971B9B /* Swizzler */,
 				3F597140175721DC00971B9B /* SRReporter.h */,
 				3F597141175721DC00971B9B /* SRReporter.m */,
@@ -326,7 +313,6 @@
 				3F5971191757217000971B9B /* Default@2x.png in Resources */,
 				3F59711B1757217000971B9B /* Default-568h@2x.png in Resources */,
 				3F59711E1757217000971B9B /* MainStoryboard.storyboard in Resources */,
-				3532E6A9175AFEB3006C5F45 /* report.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F5971331757217000971B9B /* InfoPlist.strings in Resources */,
-				3532E6AA175AFEB3006C5F45 /* report.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
