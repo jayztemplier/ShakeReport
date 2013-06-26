@@ -258,6 +258,14 @@ void uncaughtExceptionHandler(NSException *exception) {
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
+    // Authentication
+    if (_username && _password) {
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
+        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    }
+    
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSLog(@"[Shake Report] Report status:");

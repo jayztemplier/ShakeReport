@@ -57,5 +57,10 @@ To send the reports to the server, setup the listener like that:
     NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
     [reporter startListenerConnectedToBackendURL:url];
 
+If you backend is protected with a username and a password, you have to setup the reporter:
+
+	[reporter setUsername:@"jayztemplier"];
+	[reporter setPassword:@"mypassword"];
+
 # License
 SRReport is available under the MIT license. See the LICENSE file for more info

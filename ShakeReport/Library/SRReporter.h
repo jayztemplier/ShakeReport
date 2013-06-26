@@ -15,9 +15,10 @@
 
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *password;
 
 + (id)reporter;
-
 - (void)startListenerConnectedToBackendURL:(NSURL *)url;
 - (void)startListener;
 - (void)sendNewReport;

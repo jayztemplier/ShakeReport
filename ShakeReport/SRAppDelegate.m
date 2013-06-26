@@ -14,11 +14,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     SRReporter *reporter = [SRReporter reporter];
-    [reporter setDefaultEmailAddress:@"templier.jeremy@gmail.com"];
+    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
     [reporter startListener];
     
     // Send data to a Server instead of displaying the mail composer
 //    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
+//    [reporter setUsername:@"jayztemplier"];
+//    [reporter setPassword:@"mypassword"];
 //    [reporter startListenerConnectedToBackendURL:url];
     return YES;
 }
