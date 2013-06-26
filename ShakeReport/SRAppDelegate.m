@@ -15,6 +15,9 @@
 {
     SRReporter *reporter = [SRReporter reporter];
     [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
+    [reporter setCustomInformationBlock:^NSString *{
+        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
+    }];
     [reporter startListener];
     
     // Send data to a Server instead of displaying the mail composer
@@ -24,7 +27,7 @@
 //    [reporter startListenerConnectedToBackendURL:url];
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

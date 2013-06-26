@@ -11,8 +11,12 @@
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 
+typedef NSString* (^SRCustomInformationBlock)();
+
+
 @interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate>
 
+@property (readwrite, nonatomic, copy) SRCustomInformationBlock customInformationBlock;
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
 @property (nonatomic, copy) NSString *username;
@@ -21,6 +25,9 @@
 + (id)reporter;
 - (void)startListenerConnectedToBackendURL:(NSURL *)url;
 - (void)startListener;
+
+- (void)setCustomInformationBlock:(NSString* (^)())block;
+
 - (void)sendNewReport;
 - (void)saveToCrashFile:(NSString *)crashContent;
 @end

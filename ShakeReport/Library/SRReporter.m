@@ -176,6 +176,22 @@ void uncaughtExceptionHandler(NSException *exception) {
     return dump;
 }
 
+
+#pragma mark Custom Information
+- (void)setCustomInformationBlock:(NSString* (^)())block
+{
+    _customInformationBlock = block;
+}
+
+
+- (NSString *)customInformation
+{
+    if (_customInformationBlock) {
+        return _customInformationBlock();
+    }
+    return nil;
+}
+
 #pragma mark Mail Composer
 - (void)showMailComposer
 {
@@ -210,6 +226,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
     
+    
     // We attache all the information to the email
     [mailController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
     [mailController addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
@@ -217,6 +234,13 @@ void uncaughtExceptionHandler(NSException *exception) {
     [mailController addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
     [mailController setMessageBody:@"Hey! I noticed something wrong with the app, here is some information." isHTML:NO];
 
+    //Custom Information
+    NSString *additionalInformation = [self customInformation];
+    if (additionalInformation) {
+        NSData* additionalInformationData = [additionalInformation dataUsingEncoding:NSUTF8StringEncoding];
+        [mailController addAttachmentData:additionalInformationData mimeType:@"text/plain" fileName:@"additionalInformation.log"];
+    }
+    
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController presentViewController:mailController animated:YES completion:NO];
 }

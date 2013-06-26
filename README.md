@@ -46,6 +46,15 @@ You can setup the default email address that should receive the reports:
     [reporter setDefaultEmailAddress:@"templier.jeremy@gmail.com"];
     [reporter startListener];
 
+# Additional Information
+If you need to add custom information to the reports sent by email, you can do it!
+
+    [reporter setCustomInformationBlock:^NSString *{
+        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
+    }];
+
+The block has to return a string which will be inserted in the additionalInformation.log file.
+
 # Use it with a Backend
 You can also use Shake Report with a backend. And guess what!? It's open source too!
 https://github.com/jayztemplier/ShakeReportServer
