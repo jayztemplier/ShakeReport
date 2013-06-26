@@ -268,6 +268,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (httpResponse.statusCode == 201) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
         NSLog(@"[Shake Report] Report status:");
         NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
         if (data) {
