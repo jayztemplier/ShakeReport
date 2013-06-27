@@ -7,15 +7,14 @@
 //
 
 #import "SRReporter.h"
+#import "SRReporter+Private.h"
 #import "SRMethodSwizzler.h"
 #import "UIWindow+SRReporter.h"
 #import "NSData+Base64.h"
 #import "NSString+HTML.h"
-#import "JSONKit.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define kCrashFlag @"kCrashFlag"
-#define SR_LOGS_ENABLED NO
 
 void uncaughtExceptionHandler(NSException *exception) {
     NSMutableString *crashString = [NSMutableString string];
@@ -26,9 +25,37 @@ void uncaughtExceptionHandler(NSException *exception) {
     [[SRReporter reporter] saveToCrashFile:crashString];
 }
 
+static NSString * SRBase64EncodedStringFromString(NSString *string) {
+    NSData *data = [NSData dataWithBytes:[string UTF8String] length:[string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+    NSUInteger length = [data length];
+    NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
+    
+    uint8_t *input = (uint8_t *)[data bytes];
+    uint8_t *output = (uint8_t *)[mutableData mutableBytes];
+    
+    for (NSUInteger i = 0; i < length; i += 3) {
+        NSUInteger value = 0;
+        for (NSUInteger j = i; j < (i + 3); j++) {
+            value <<= 8;
+            if (j < length) {
+                value |= (0xFF & input[j]);
+            }
+        }
+        
+        static uint8_t const kAFBase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        
+        NSUInteger idx = (i / 3) * 4;
+        output[idx + 0] = kAFBase64EncodingTable[(value >> 18) & 0x3F];
+        output[idx + 1] = kAFBase64EncodingTable[(value >> 12) & 0x3F];
+        output[idx + 2] = (i + 1) < length ? kAFBase64EncodingTable[(value >> 6)  & 0x3F] : '=';
+        output[idx + 3] = (i + 2) < length ? kAFBase64EncodingTable[(value >> 0)  & 0x3F] : '=';
+    }
+    
+    return [[NSString alloc] initWithData:mutableData encoding:NSASCIIStringEncoding];
+}
+
 @interface SRReporter ()
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
-@property (nonatomic, assign) BOOL useJIRAIntegration;
 @end
 
 @implementation SRReporter
@@ -38,7 +65,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     static SRReporter *__sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __sharedInstance = [[SRReporter alloc] init];
+        __sharedInstance = [[self alloc] init];
     });
     return __sharedInstance;
 }
@@ -58,16 +85,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 
-- (void)startListenerWithJIRAIntegrationAtURL:(NSURL *)jiraURL andUsername:(NSString *)username password:(NSString *)password projectKey:(NSString *)projectKey andDefaultAssignedUser:(NSString *)user
-{
-    _useJIRAIntegration = YES;
-    _backendURL = jiraURL;
-    _username = username;
-    _password = password;
-    _projectKey = projectKey;
-    _jiraDefaultAssignedUser = user;
-    [self startListener];
-}
 
 - (void)startListener
 {
@@ -107,7 +124,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (void)sendNewReport
 {
-    return [self sendToJira];
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
         [self sendToServer];
@@ -270,10 +286,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)setAuthenticationParamsToRequest:(NSMutableURLRequest*)request
 {
     if (_username && _password) {
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
-        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", _username, _password];
+        [request addValue:[NSString stringWithFormat:@"Basic %@", SRBase64EncodedStringFromString(basicAuthCredentials)] forHTTPHeaderField:@"Authorization"];
     }
 }
 
@@ -325,55 +339,5 @@ void uncaughtExceptionHandler(NSException *exception) {
             NSLog(@"[Shake Report] Error: %@", error);
         }
     }];
-}
-
-#pragma mark JIRA Integration
-
-- (void)sendToJira
-{
-    NSURL *issueURL = [NSURL URLWithString:@"issue/" relativeToURL:_backendURL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:issueURL];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request addValue:@"nocheck" forHTTPHeaderField:@"X-Atlassian-Token"];
-    [request setHTTPMethod:@"POST"];
-    NSString *paramsString = [[self jiraParamsDictionary] JSONString];
-    NSData *requestData = [NSData dataWithBytes:[paramsString UTF8String] length:[paramsString length]];
-    [request setHTTPBody:requestData];
-    
-    // Authentication
-    [self setAuthenticationParamsToRequest:request];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode == 201) {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-        }
-        NSString* newStr = [[NSString alloc] initWithData:data
-                                                  encoding:NSUTF8StringEncoding];
-
-//        if(SR_LOGS_ENABLED) {
-            NSLog(@"[Shake Report] Report status:");
-            NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
-            if (data) {
-                NSLog(@"[Shake Report] Response Body: %@", [data objectFromJSONData]);
-            }
-            NSLog(@"[Shake Report] Error: %@", error);
-//        }
-    }];
-}
-
-- (NSDictionary *)jiraParamsDictionary
-{
-    NSMutableDictionary *params = [NSMutableDictionary new];
-    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-    NSString *description = [NSString stringWithFormat:@"Bundle Version: %@", bundleVersion];
-    [params setValue:@{@"key": _projectKey} forKey:@"project"];
-    [params setValue:@"New bug reported from the Shake Reporter" forKey:@"summary"];
-    [params setValue:description forKey:@"description"];
-    [params setValue:(_jiraDefaultAssignedUser ? _jiraDefaultAssignedUser : @"") forKey:@"assignee"];
-    [params setValue:@{@"name": @"Bug"} forKey:@"issuetype"];
-    
-    return @{@"fields": params};
 }
 @end
