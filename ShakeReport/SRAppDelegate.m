@@ -14,17 +14,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     SRReporter *reporter = [SRReporter reporter];
-    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
-    [reporter setCustomInformationBlock:^NSString *{
-        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
-    }];
-    [reporter startListener];
-    
+//    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
+//    [reporter setCustomInformationBlock:^NSString *{
+//        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
+//    }];
+//    [reporter startListener];
+//
     // Send data to a Server instead of displaying the mail composer
 //    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
 //    [reporter setUsername:@"jayztemplier"];
 //    [reporter setPassword:@"mypassword"];
 //    [reporter startListenerConnectedToBackendURL:url];
+    
+    // JIRA Integration
+    NSURL *url = [NSURL URLWithString:@"https://test.atlassian.net/"];
+    [reporter startListenerWithJIRAIntegrationAtURL:url andUsername:@"jeremy@example.com" password:@"password" projectKey:@"IOS" andDefaultAssignedUser:@"jeremy@newrelic.com"];
     return YES;
 }
 

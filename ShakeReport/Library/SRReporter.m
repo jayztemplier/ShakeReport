@@ -28,6 +28,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 @interface SRReporter ()
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
+@property (nonatomic, assign) BOOL useJIRAIntegration;
 @end
 
 @implementation SRReporter
@@ -56,6 +57,17 @@ void uncaughtExceptionHandler(NSException *exception) {
     [self startListener];
 }
 
+
+- (void)startListenerWithJIRAIntegrationAtURL:(NSURL *)jiraURL andUsername:(NSString *)username password:(NSString *)password projectKey:(NSString *)projectKey andDefaultAssignedUser:(NSString *)user
+{
+    _useJIRAIntegration = YES;
+    _backendURL = jiraURL;
+    _username = username;
+    _password = password;
+    _projectKey = projectKey;
+    _jiraDefaultAssignedUser = user;
+    [self startListener];
+}
 
 - (void)startListener
 {
@@ -95,6 +107,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark Report
 - (void)sendNewReport
 {
+    return [self sendToJira];
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
         [self sendToServer];
@@ -254,6 +267,16 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark ShareReport Server API
+- (void)setAuthenticationParamsToRequest:(NSMutableURLRequest*)request
+{
+    if (_username && _password) {
+        NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
+        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    }
+}
+
 - (void)sendToServer
 {
     if (!_backendURL) {
@@ -285,12 +308,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
     // Authentication
-    if (_username && _password) {
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
-        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    }
+    [self setAuthenticationParamsToRequest:request];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -307,5 +325,55 @@ void uncaughtExceptionHandler(NSException *exception) {
             NSLog(@"[Shake Report] Error: %@", error);
         }
     }];
+}
+
+#pragma mark JIRA Integration
+
+- (void)sendToJira
+{
+    NSURL *issueURL = [NSURL URLWithString:@"issue/" relativeToURL:_backendURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:issueURL];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request addValue:@"nocheck" forHTTPHeaderField:@"X-Atlassian-Token"];
+    [request setHTTPMethod:@"POST"];
+    NSString *paramsString = [[self jiraParamsDictionary] JSONString];
+    NSData *requestData = [NSData dataWithBytes:[paramsString UTF8String] length:[paramsString length]];
+    [request setHTTPBody:requestData];
+    
+    // Authentication
+    [self setAuthenticationParamsToRequest:request];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (httpResponse.statusCode == 201) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+        NSString* newStr = [[NSString alloc] initWithData:data
+                                                  encoding:NSUTF8StringEncoding];
+
+//        if(SR_LOGS_ENABLED) {
+            NSLog(@"[Shake Report] Report status:");
+            NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
+            if (data) {
+                NSLog(@"[Shake Report] Response Body: %@", [data objectFromJSONData]);
+            }
+            NSLog(@"[Shake Report] Error: %@", error);
+//        }
+    }];
+}
+
+- (NSDictionary *)jiraParamsDictionary
+{
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+    NSString *description = [NSString stringWithFormat:@"Bundle Version: %@", bundleVersion];
+    [params setValue:@{@"key": _projectKey} forKey:@"project"];
+    [params setValue:@"New bug reported from the Shake Reporter" forKey:@"summary"];
+    [params setValue:description forKey:@"description"];
+    [params setValue:(_jiraDefaultAssignedUser ? _jiraDefaultAssignedUser : @"") forKey:@"assignee"];
+    [params setValue:@{@"name": @"Bug"} forKey:@"issuetype"];
+    
+    return @{@"fields": params};
 }
 @end
