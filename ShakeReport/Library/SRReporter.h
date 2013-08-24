@@ -10,11 +10,12 @@
 #import "UIWindow+SRReporter.h"
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "SRReportViewController.h"
 
 typedef NSString* (^SRCustomInformationBlock)();
 
 
-@interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate>
+@interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, SRReportViewControllerDelegate>
 
 @property (readwrite, nonatomic, copy) SRCustomInformationBlock customInformationBlock;
 @property (nonatomic, copy) NSString *defaultEmailAddress;

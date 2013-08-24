@@ -37,6 +37,8 @@
 		3F597143175721DC00971B9B /* SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F597141175721DC00971B9B /* SRReporter.m */; };
 		3F59714B175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
 		3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
+		3F7BEEC217C8903B004020BD /* SRReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7BEEC017C8903B004020BD /* SRReportViewController.m */; };
+		3F7BEEC317C8903B004020BD /* SRReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7BEEC117C8903B004020BD /* SRReportViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,9 @@
 		3F597141175721DC00971B9B /* SRReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReporter.m; path = Library/SRReporter.m; sourceTree = "<group>"; };
 		3F597149175725F000971B9B /* UIWindow+SRReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+SRReporter.h"; path = "Library/UIWindow+SRReporter.h"; sourceTree = "<group>"; };
 		3F59714A175725F000971B9B /* UIWindow+SRReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+SRReporter.m"; path = "Library/UIWindow+SRReporter.m"; sourceTree = "<group>"; };
+		3F7BEEBF17C8903B004020BD /* SRReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRReportViewController.h; path = Library/SRReportViewController.h; sourceTree = "<group>"; };
+		3F7BEEC017C8903B004020BD /* SRReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReportViewController.m; path = Library/SRReportViewController.m; sourceTree = "<group>"; };
+		3F7BEEC117C8903B004020BD /* SRReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SRReportViewController.xib; path = Library/SRReportViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +226,9 @@
 				3F597144175723E600971B9B /* Swizzler */,
 				3F597140175721DC00971B9B /* SRReporter.h */,
 				3F597141175721DC00971B9B /* SRReporter.m */,
+				3F7BEEBF17C8903B004020BD /* SRReportViewController.h */,
+				3F7BEEC017C8903B004020BD /* SRReportViewController.m */,
+				3F7BEEC117C8903B004020BD /* SRReportViewController.xib */,
 				3F597149175725F000971B9B /* UIWindow+SRReporter.h */,
 				3F59714A175725F000971B9B /* UIWindow+SRReporter.m */,
 			);
@@ -313,6 +321,7 @@
 				3F5971191757217000971B9B /* Default@2x.png in Resources */,
 				3F59711B1757217000971B9B /* Default-568h@2x.png in Resources */,
 				3F59711E1757217000971B9B /* MainStoryboard.storyboard in Resources */,
+				3F7BEEC317C8903B004020BD /* SRReportViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +365,7 @@
 				35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
 				35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */,
 				35477F6D175DCB860069D3AC /* JSONKit.m in Sources */,
+				3F7BEEC217C8903B004020BD /* SRReportViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

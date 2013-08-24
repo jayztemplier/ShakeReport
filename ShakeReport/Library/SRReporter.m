@@ -13,6 +13,7 @@
 #import "NSString+HTML.h"
 #import "JSONKit.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SRReportViewController.h"
 
 #define kCrashFlag @"kCrashFlag"
 #define SR_LOGS_ENABLED NO
@@ -28,6 +29,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 @interface SRReporter ()
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
+@property (nonatomic, strong) UIImage *tempScreenshot;
 @end
 
 @implementation SRReporter
@@ -97,7 +99,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
-        [self sendToServer];
+        _tempScreenshot = [self screenshot];
+        SRReportViewController *controller = [SRReportViewController composer];
+        controller.delegate = self;
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+        [window.rootViewController presentViewController:controller animated:YES completion:NO];
     } else {
         [self showMailComposer];
     }
@@ -254,13 +260,14 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark ShareReport Server API
-- (void)sendToServer
+- (void)sendToServerWithTitle:(NSString *)title andMessage:(NSString *)message
 {
     if (!_backendURL) {
         return;
     }
     
-    UIImage *screenshot = [self screenshot];
+    UIImage *screenshot = _tempScreenshot ? _tempScreenshot : [self screenshot];
+    _tempScreenshot = nil;
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
     NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
     NSString *logs = [self logs];
@@ -270,11 +277,13 @@ void uncaughtExceptionHandler(NSException *exception) {
     // let's construct the URL
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_backendURL];
     NSMutableDictionary *reportParams = [NSMutableDictionary dictionary];
-    [reportParams setObject:base64ImageString forKey:@"screenshot"];
-    [reportParams setObject:logs forKey:@"logs"];
-    [reportParams setObject:viewDump forKey:@"dumped_view"];
+    reportParams[@"screenshot"] = base64ImageString;
+    reportParams[@"logs"] = logs;
+    reportParams[@"dumped_view"] = viewDump;
+    reportParams[@"title"] = (title && title.length ? title : @"No title");
+    reportParams[@"message"] = (message && message.length ? message : @"No message");
     if (crashReport) {
-        [reportParams setObject:crashReport forKey:@"crash_logs"];
+        reportParams[@"crash_logs"] = crashReport;
     }
     NSDictionary *params = @{@"report": reportParams};
     NSString *paramsString = [params JSONString];
@@ -308,4 +317,14 @@ void uncaughtExceptionHandler(NSException *exception) {
         }
     }];
 }
+
+#pragma mark - SRReportViewController delegate
+- (void)reportControllerDidPressSend:(SRReportViewController *)controller
+{
+    NSString *title = controller.title;
+    NSString *message = controller.message;
+    [self sendToServerWithTitle:title andMessage:message];
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
