@@ -18,6 +18,10 @@ Shake the iDevice, and they will send:
 
 # Installation
 
+If you use Cocoapods, add the `ShakeReport` pod to your `Podfile`.
+
+OR
+
 Add those frameworks to your target:
 
 * QuartzCore
