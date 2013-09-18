@@ -3,7 +3,7 @@
 //  ShakeReport
 //
 //  Created by Jeremy Templier on 5/29/13.
-//  Copyright (c) 2013 Jayztemplier. All rights reserved.
+//  Copyright (c) 2013 Jeremy Templier. All rights reserved.
 //
 
 #import "SRReporter.h"
@@ -14,32 +14,30 @@
 #import "JSONKit.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SRReportViewController.h"
+#import "SRHTTPClient.h"
+#import "SRReportLoadingView.h"
 
 #define kCrashFlag @"kCrashFlag"
 #define SR_LOGS_ENABLED NO
 
 void uncaughtExceptionHandler(NSException *exception) {
-    NSMutableString *crashString = [NSMutableString string];
-    [crashString appendString:@"-------------- CRASH --------------\n"];
-    [crashString appendFormat:@"CRASH: %@", exception];
-    [crashString appendFormat:@"Stack Trace: %@", [exception callStackSymbols]];
-    [crashString appendString:@"-----------------------------------"];
-    [[SRReporter reporter] saveToCrashFile:crashString];
+    [[SRReporter reporter] onCrash:exception];
 }
 
 @interface SRReporter ()
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
 @property (nonatomic, strong) UIImage *tempScreenshot;
+@property (nonatomic, strong) SRReportLoadingView *loadingView;
 @end
 
 @implementation SRReporter
 @synthesize mailController;
 
-+ (id)reporter {
++ (instancetype)reporter {
     static SRReporter *__sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __sharedInstance = [[SRReporter alloc] init];
+        __sharedInstance = [[self alloc] init];
     });
     return __sharedInstance;
 }
@@ -48,6 +46,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     self = [super init];
     if (self) {
+        _lastSessionCrashed = [self crashFlag];
+        [self setCrashFlag:NO];
     }
     return self;
 }
@@ -64,16 +64,22 @@ void uncaughtExceptionHandler(NSException *exception) {
     [self startLog2File];
     [self startCrashExceptionHandler];
     SwizzleInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:), @selector(SR_motionEnded:withEvent:));
+    NSLog(@"Shake Report is now listening to your application.");
 }
+
+- (void)stopListener
+{
+}
+
 
 #pragma mark Logs
 - (void)startLog2File
 {
-#if TARGET_IPHONE_SIMULATOR == 0
-    NSString *logPath = [self logFilePath];
-    [[NSFileManager defaultManager] removeItemAtPath:logPath error:nil];
-    freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
-#endif
+    if (!isatty(STDERR_FILENO)) {
+        NSString *logPath = [self logFilePath];
+        [[NSFileManager defaultManager] removeItemAtPath:logPath error:nil];
+        freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+    }
 }
 
 - (NSString *)logFilePath
@@ -103,16 +109,35 @@ void uncaughtExceptionHandler(NSException *exception) {
         SRReportViewController *controller = [SRReportViewController composer];
         controller.delegate = self;
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        [window.rootViewController presentViewController:controller animated:YES completion:NO];
+        [self presentReportComposer:controller inViewController:window.rootViewController];
     } else {
         [self showMailComposer];
     }
 }
 
-#pragma Crash Report
+- (void)presentReportComposer:(UIViewController *)composerController inViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController) {
+        [self presentReportComposer:composerController inViewController:rootViewController.presentedViewController];
+    } else {
+        [rootViewController presentViewController:composerController animated:YES completion:NO];
+    }
+}
+
+#pragma mark - Crash Report
 - (void)startCrashExceptionHandler
 {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+}
+
+- (void)onCrash:(NSException *)exception
+{
+    NSMutableString *crashString = [NSMutableString string];
+    [crashString appendString:@"-------------- CRASH --------------\n"];
+    [crashString appendFormat:@"CRASH: %@", exception];
+    [crashString appendFormat:@"Stack Trace: %@", [exception callStackSymbols]];
+    [crashString appendString:@"-----------------------------------"];
+    [[SRReporter reporter] saveToCrashFile:crashString];
 }
 
 - (void)setCrashFlag:(BOOL)flag
@@ -182,6 +207,14 @@ void uncaughtExceptionHandler(NSException *exception) {
     return dump;
 }
 
+#pragma mark System Information
+- (NSDictionary *)systemInformation
+{
+    return @{
+             @"os_version": [[UIDevice currentDevice] systemVersion],
+             @"device_model" : [[UIDevice currentDevice] model]
+             };
+}
 
 #pragma mark Custom Information
 - (void)setCustomInformationBlock:(NSString* (^)())block
@@ -199,24 +232,12 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark Mail Composer
-- (void)showMailComposer
+- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer
 {
-    if (mailController) {
-        return;
-    }
-    mailController = [[MFMailComposeViewController alloc] init];
-    mailController.mailComposeDelegate = self;
-    mailController.delegate = self;
-    [mailController setSubject:@"[SRReporter] New Report"];
-    if (_defaultEmailAddress) {
-        [mailController setToRecipients:@[_defaultEmailAddress]];
-    }
-    mailController.modalPresentationStyle = UIModalPresentationPageSheet;
-    
     // Fetch Screenshot data
     UIImage *screenshot = [self screenshot];
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
-
+    
     // Logs
     NSString *logs = [self logs];
     NSData* logsData = [logs dataUsingEncoding:NSUTF8StringEncoding];
@@ -232,21 +253,36 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     NSData* crashData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
     
-    
     // We attache all the information to the email
-    [mailController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
-    [mailController addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
-    [mailController addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
-    [mailController addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
-    [mailController setMessageBody:@"Hey! I noticed something wrong with the app, here is some information." isHTML:NO];
-
+    [mailComposer addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"screenshot.jpeg"];
+    [mailComposer addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
+    [mailComposer addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
+    [mailComposer addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
+    NSString *message = [NSString stringWithFormat:@"Hey! I noticed something wrong with the app, here is some information.\nDevice model: %@\nOS version:%@", [self systemInformation][@"device_model"], [self systemInformation][@"os_version"]];
+    [mailComposer setMessageBody:message isHTML:NO];
+    
     //Custom Information
     NSString *additionalInformation = [self customInformation];
     if (additionalInformation) {
         NSData* additionalInformationData = [additionalInformation dataUsingEncoding:NSUTF8StringEncoding];
-        [mailController addAttachmentData:additionalInformationData mimeType:@"text/plain" fileName:@"additionalInformation.log"];
+        [mailComposer addAttachmentData:additionalInformationData mimeType:@"text/plain" fileName:@"additionalInformation.log"];
     }
-    
+}
+
+- (void)showMailComposer
+{
+    if (mailController) {
+        return;
+    }
+    mailController = [[MFMailComposeViewController alloc] init];
+    mailController.mailComposeDelegate = self;
+    mailController.delegate = self;
+    [mailController setSubject:@"[SRReporter] New Report"];
+    if (_defaultEmailAddress) {
+        [mailController setToRecipients:@[_defaultEmailAddress]];
+    }
+    mailController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self addAttachmentsToMailComposer:mailController];
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController presentViewController:mailController animated:YES completion:NO];
 }
@@ -260,12 +296,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark ShareReport Server API
-- (void)sendToServerWithTitle:(NSString *)title andMessage:(NSString *)message
+- (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
 {
-    if (!_backendURL) {
-        return;
-    }
-    
     UIImage *screenshot = _tempScreenshot ? _tempScreenshot : [self screenshot];
     _tempScreenshot = nil;
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
@@ -275,47 +307,52 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString *crashReport = [self crashReport];
     
     // let's construct the URL
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_backendURL];
     NSMutableDictionary *reportParams = [NSMutableDictionary dictionary];
-    reportParams[@"screenshot"] = base64ImageString;
-    reportParams[@"logs"] = logs;
-    reportParams[@"dumped_view"] = viewDump;
-    reportParams[@"title"] = (title && title.length ? title : @"No title");
-    reportParams[@"message"] = (message && message.length ? message : @"No message");
+    reportParams[@"report[screenshot]"] = base64ImageString;
+    reportParams[@"report[logs]"] = logs;
+    reportParams[@"report[dumped_view]"] = viewDump;
+    reportParams[@"report[title]"] = (title && title.length ? title : @"No title");
+    reportParams[@"report[message]"] = (message && message.length ? message : @"No message");
+    reportParams[@"report[device_model]"] = [self systemInformation][@"device_model"];
+    reportParams[@"report[os_version]"] = [self systemInformation][@"os_version"];
+    reportParams[@"report[message]"] = (message && message.length ? message : @"No message");
     if (crashReport) {
-        reportParams[@"crash_logs"] = crashReport;
+        reportParams[@"report[crash_logs]"] = crashReport;
     }
-    NSDictionary *params = @{@"report": reportParams};
-    NSString *paramsString = [params JSONString];
-    NSData *requestData = [NSData dataWithBytes:[paramsString UTF8String] length:[paramsString length]];
-    [request setHTTPBody:requestData];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    return reportParams;
+}
 
-    // Authentication
+- (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
+{
+    NSMutableDictionary *reportParams = [[self paramsForHTTPReportWithTitle:title andMessage:message] mutableCopy];
+    SRHTTPClient *httpClient = [[SRHTTPClient alloc] initWithBaseURL:_backendURL];
     if (_username && _password) {
-        NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
-        NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
-        [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        [httpClient setAuthorizationHeaderWithUsername:[self username] password:[self password]];
     }
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if (httpResponse.statusCode == 201) {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-        }
-        if(SR_LOGS_ENABLED) {
-            NSLog(@"[Shake Report] Report status:");
-            NSLog(@"[Shake Report] HTTP Status Code: %d", httpResponse.statusCode);
-            if (data) {
-                NSLog(@"[Shake Report] Response Body: %@", [data objectFromJSONData]);
-            }
-            NSLog(@"[Shake Report] Error: %@", error);
-        }
-    }];
+    NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:@"/reports.json" parameters:reportParams];
+    return request;
+}
+
+- (void)sendToServerWithTitle:(NSString *)title andMessage:(NSString *)message
+{
+    if (!_backendURL) {
+        return;
+    }
+    NSMutableURLRequest *request = [self requestForHTTPReportWithTitle:title andMessage:message];
+    NSURLConnection *urlConnection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [urlConnection start];
+}
+
+#pragma mark - Loading View
+- (void)displayProgressBarWithPercentage:(CGFloat)percentage
+{
+    if (!_loadingView) {
+        _loadingView = [[SRReportLoadingView alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
+    }
+    UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    _loadingView.center = CGPointMake(CGRectGetMidX(window.bounds), CGRectGetMidY(window.bounds));
+    _loadingView.progressView.progress = percentage;
+    [window addSubview:_loadingView];
 }
 
 #pragma mark - SRReportViewController delegate
@@ -325,6 +362,34 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString *message = controller.message;
     [self sendToServerWithTitle:title andMessage:message];
     [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - URL Connection Delegate
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
+{
+    [_loadingView removeFromSuperview];
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    if(SR_LOGS_ENABLED) {
+        NSLog(@"[Shake Report] Report status:");
+        NSLog(@"[Shake Report] HTTP Status Code: %d", response.statusCode);
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [_loadingView removeFromSuperview];
+    
+    if(SR_LOGS_ENABLED) {
+        NSLog(@"[Shake Report] Report status:");
+        NSLog(@"[Shake Report] Error: %@", error);
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+{
+    [self displayProgressBarWithPercentage:(CGFloat)totalBytesWritten/(CGFloat)totalBytesExpectedToWrite];
 }
 
 @end

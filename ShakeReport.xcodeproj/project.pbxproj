@@ -39,6 +39,27 @@
 		3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
 		3F7BEEC217C8903B004020BD /* SRReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7BEEC017C8903B004020BD /* SRReportViewController.m */; };
 		3F7BEEC317C8903B004020BD /* SRReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7BEEC117C8903B004020BD /* SRReportViewController.xib */; };
+		3FE19CD417ED2245004F64B9 /* SRCameraRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBA17ED2245004F64B9 /* SRCameraRecorder.m */; };
+		3FE19CD517ED2245004F64B9 /* SRCGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBC17ED2245004F64B9 /* SRCGUtils.m */; };
+		3FE19CD617ED2245004F64B9 /* SRDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBE17ED2245004F64B9 /* SRDefines.m */; };
+		3FE19CD717ED2245004F64B9 /* SRRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CC117ED2245004F64B9 /* SRRecorder.m */; };
+		3FE19CD817ED2245004F64B9 /* SRScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CC317ED2245004F64B9 /* SRScreenRecorder.m */; };
+		3FE19CDB17ED2245004F64B9 /* SRUITouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CC917ED2245004F64B9 /* SRUITouch.m */; };
+		3FE19CDC17ED2245004F64B9 /* SRUIViewRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CCB17ED2245004F64B9 /* SRUIViewRecorder.m */; };
+		3FE19CDD17ED2245004F64B9 /* SRUIWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CCD17ED2245004F64B9 /* SRUIWindow.m */; };
+		3FE19CDE17ED2245004F64B9 /* SRUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CCF17ED2245004F64B9 /* SRUtils.m */; };
+		3FE19CDF17ED2245004F64B9 /* SRVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CD117ED2245004F64B9 /* SRVideo.m */; };
+		3FE19CE017ED2245004F64B9 /* SRVideoWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CD317ED2245004F64B9 /* SRVideoWriter.m */; };
+		3FE19D6E17ED8AAB004F64B9 /* SRModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19D6D17ED8AAB004F64B9 /* SRModalViewController.m */; };
+		3FE19D7417EE3E40004F64B9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE19D7317EE3E40004F64B9 /* CFNetwork.framework */; };
+		3FE19D7A17EE4BBA004F64B9 /* SRHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19D7917EE4BBA004F64B9 /* SRHTTPClient.m */; };
+		3FE19D7E17EEDBC0004F64B9 /* SRVideoReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19D7D17EEDBC0004F64B9 /* SRVideoReporter.m */; };
+		3FE7F93717EBCE8C00DF0EFB /* SRReportLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE7F93617EBCE8C00DF0EFB /* SRReportLoadingView.m */; };
+		3FEA764617EAFE2A00FF9C5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEA764517EAFE2A00FF9C5B /* Security.framework */; };
+		3FEE83A917E8395B0037A60A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83A817E8395B0037A60A /* AssetsLibrary.framework */; };
+		3FEE83AB17E839620037A60A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AA17E839620037A60A /* AVFoundation.framework */; };
+		3FEE83AD17E839670037A60A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AC17E839670037A60A /* CoreMedia.framework */; };
+		3FEE83AF17E8396D0037A60A /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AE17E8396D0037A60A /* CoreVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +112,44 @@
 		3F7BEEBF17C8903B004020BD /* SRReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRReportViewController.h; path = Library/SRReportViewController.h; sourceTree = "<group>"; };
 		3F7BEEC017C8903B004020BD /* SRReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReportViewController.m; path = Library/SRReportViewController.m; sourceTree = "<group>"; };
 		3F7BEEC117C8903B004020BD /* SRReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SRReportViewController.xib; path = Library/SRReportViewController.xib; sourceTree = "<group>"; };
+		3FE19CB817ED2245004F64B9 /* CaptureRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureRecord.h; sourceTree = "<group>"; };
+		3FE19CB917ED2245004F64B9 /* SRCameraRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCameraRecorder.h; sourceTree = "<group>"; };
+		3FE19CBA17ED2245004F64B9 /* SRCameraRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRCameraRecorder.m; sourceTree = "<group>"; };
+		3FE19CBB17ED2245004F64B9 /* SRCGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCGUtils.h; sourceTree = "<group>"; };
+		3FE19CBC17ED2245004F64B9 /* SRCGUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRCGUtils.m; sourceTree = "<group>"; };
+		3FE19CBD17ED2245004F64B9 /* SRDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRDefines.h; sourceTree = "<group>"; };
+		3FE19CBE17ED2245004F64B9 /* SRDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRDefines.m; sourceTree = "<group>"; };
+		3FE19CBF17ED2245004F64B9 /* SRRecordable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRecordable.h; sourceTree = "<group>"; };
+		3FE19CC017ED2245004F64B9 /* SRRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRecorder.h; sourceTree = "<group>"; };
+		3FE19CC117ED2245004F64B9 /* SRRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRRecorder.m; sourceTree = "<group>"; };
+		3FE19CC217ED2245004F64B9 /* SRScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRScreenRecorder.h; sourceTree = "<group>"; };
+		3FE19CC317ED2245004F64B9 /* SRScreenRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRScreenRecorder.m; sourceTree = "<group>"; };
+		3FE19CC817ED2245004F64B9 /* SRUITouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRUITouch.h; sourceTree = "<group>"; };
+		3FE19CC917ED2245004F64B9 /* SRUITouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRUITouch.m; sourceTree = "<group>"; };
+		3FE19CCA17ED2245004F64B9 /* SRUIViewRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRUIViewRecorder.h; sourceTree = "<group>"; };
+		3FE19CCB17ED2245004F64B9 /* SRUIViewRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRUIViewRecorder.m; sourceTree = "<group>"; };
+		3FE19CCC17ED2245004F64B9 /* SRUIWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRUIWindow.h; sourceTree = "<group>"; };
+		3FE19CCD17ED2245004F64B9 /* SRUIWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRUIWindow.m; sourceTree = "<group>"; };
+		3FE19CCE17ED2245004F64B9 /* SRUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRUtils.h; sourceTree = "<group>"; };
+		3FE19CCF17ED2245004F64B9 /* SRUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRUtils.m; sourceTree = "<group>"; };
+		3FE19CD017ED2245004F64B9 /* SRVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRVideo.h; sourceTree = "<group>"; };
+		3FE19CD117ED2245004F64B9 /* SRVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRVideo.m; sourceTree = "<group>"; };
+		3FE19CD217ED2245004F64B9 /* SRVideoWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRVideoWriter.h; sourceTree = "<group>"; };
+		3FE19CD317ED2245004F64B9 /* SRVideoWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRVideoWriter.m; sourceTree = "<group>"; };
+		3FE19D6C17ED8AAB004F64B9 /* SRModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRModalViewController.h; sourceTree = "<group>"; };
+		3FE19D6D17ED8AAB004F64B9 /* SRModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRModalViewController.m; sourceTree = "<group>"; };
+		3FE19D7317EE3E40004F64B9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		3FE19D7817EE4BBA004F64B9 /* SRHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRHTTPClient.h; path = Library/SRHTTPClient.h; sourceTree = "<group>"; };
+		3FE19D7917EE4BBA004F64B9 /* SRHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRHTTPClient.m; path = Library/SRHTTPClient.m; sourceTree = "<group>"; };
+		3FE19D7C17EEDBC0004F64B9 /* SRVideoReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRVideoReporter.h; path = Library/SRVideoReporter.h; sourceTree = "<group>"; };
+		3FE19D7D17EEDBC0004F64B9 /* SRVideoReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRVideoReporter.m; path = Library/SRVideoReporter.m; sourceTree = "<group>"; };
+		3FE7F93517EBCE8C00DF0EFB /* SRReportLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRReportLoadingView.h; path = Library/SRReportLoadingView.h; sourceTree = "<group>"; };
+		3FE7F93617EBCE8C00DF0EFB /* SRReportLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReportLoadingView.m; path = Library/SRReportLoadingView.m; sourceTree = "<group>"; };
+		3FEA764517EAFE2A00FF9C5B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3FEE83A817E8395B0037A60A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		3FEE83AA17E839620037A60A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3FEE83AC17E839670037A60A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3FEE83AE17E8396D0037A60A /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +157,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE19D7417EE3E40004F64B9 /* CFNetwork.framework in Frameworks */,
+				3FEA764617EAFE2A00FF9C5B /* Security.framework in Frameworks */,
+				3FEE83AF17E8396D0037A60A /* CoreVideo.framework in Frameworks */,
+				3FEE83AD17E839670037A60A /* CoreMedia.framework in Frameworks */,
+				3FEE83AB17E839620037A60A /* AVFoundation.framework in Frameworks */,
+				3FEE83A917E8395B0037A60A /* AssetsLibrary.framework in Frameworks */,
 				3F2B548D1757434100DF3193 /* MessageUI.framework in Frameworks */,
 				3F2B548B17573D8200DF3193 /* QuartzCore.framework in Frameworks */,
 				3F5971051757217000971B9B /* UIKit.framework in Frameworks */,
@@ -142,6 +207,10 @@
 		3F5970F81757217000971B9B = {
 			isa = PBXGroup;
 			children = (
+				3FEE83AE17E8396D0037A60A /* CoreVideo.framework */,
+				3FEE83AC17E839670037A60A /* CoreMedia.framework */,
+				3FEE83AA17E839620037A60A /* AVFoundation.framework */,
+				3FEE83A817E8395B0037A60A /* AssetsLibrary.framework */,
 				3F59710A1757217000971B9B /* ShakeReport */,
 				3F59712E1757217000971B9B /* ShakeReportTests */,
 				3F5971031757217000971B9B /* Frameworks */,
@@ -161,6 +230,8 @@
 		3F5971031757217000971B9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FE19D7317EE3E40004F64B9 /* CFNetwork.framework */,
+				3FEA764517EAFE2A00FF9C5B /* Security.framework */,
 				3F2B548C1757434100DF3193 /* MessageUI.framework */,
 				3F2B548A17573D8200DF3193 /* QuartzCore.framework */,
 				3F5971041757217000971B9B /* UIKit.framework */,
@@ -181,6 +252,8 @@
 				3F59711C1757217000971B9B /* MainStoryboard.storyboard */,
 				3F59711F1757217000971B9B /* SRViewController.h */,
 				3F5971201757217000971B9B /* SRViewController.m */,
+				3FE19D6C17ED8AAB004F64B9 /* SRModalViewController.h */,
+				3FE19D6D17ED8AAB004F64B9 /* SRModalViewController.m */,
 				3F59710B1757217000971B9B /* Supporting Files */,
 			);
 			path = ShakeReport;
@@ -222,15 +295,21 @@
 		3F59713F175721B800971B9B /* library */ = {
 			isa = PBXGroup;
 			children = (
+				3FE19D7B17EE4BC2004F64B9 /* http */,
+				3FE19CB717ED2245004F64B9 /* Screen Record */,
 				35F4873B175B10AB00E8F4EA /* helper */,
 				3F597144175723E600971B9B /* Swizzler */,
 				3F597140175721DC00971B9B /* SRReporter.h */,
 				3F597141175721DC00971B9B /* SRReporter.m */,
+				3FE19D7C17EEDBC0004F64B9 /* SRVideoReporter.h */,
+				3FE19D7D17EEDBC0004F64B9 /* SRVideoReporter.m */,
 				3F7BEEBF17C8903B004020BD /* SRReportViewController.h */,
 				3F7BEEC017C8903B004020BD /* SRReportViewController.m */,
 				3F7BEEC117C8903B004020BD /* SRReportViewController.xib */,
 				3F597149175725F000971B9B /* UIWindow+SRReporter.h */,
 				3F59714A175725F000971B9B /* UIWindow+SRReporter.m */,
+				3FE7F93517EBCE8C00DF0EFB /* SRReportLoadingView.h */,
+				3FE7F93617EBCE8C00DF0EFB /* SRReportLoadingView.m */,
 			);
 			name = library;
 			sourceTree = "<group>";
@@ -242,6 +321,47 @@
 				3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */,
 			);
 			name = Swizzler;
+			sourceTree = "<group>";
+		};
+		3FE19CB717ED2245004F64B9 /* Screen Record */ = {
+			isa = PBXGroup;
+			children = (
+				3FE19CB817ED2245004F64B9 /* CaptureRecord.h */,
+				3FE19CB917ED2245004F64B9 /* SRCameraRecorder.h */,
+				3FE19CBA17ED2245004F64B9 /* SRCameraRecorder.m */,
+				3FE19CBB17ED2245004F64B9 /* SRCGUtils.h */,
+				3FE19CBC17ED2245004F64B9 /* SRCGUtils.m */,
+				3FE19CBD17ED2245004F64B9 /* SRDefines.h */,
+				3FE19CBE17ED2245004F64B9 /* SRDefines.m */,
+				3FE19CBF17ED2245004F64B9 /* SRRecordable.h */,
+				3FE19CC017ED2245004F64B9 /* SRRecorder.h */,
+				3FE19CC117ED2245004F64B9 /* SRRecorder.m */,
+				3FE19CC217ED2245004F64B9 /* SRScreenRecorder.h */,
+				3FE19CC317ED2245004F64B9 /* SRScreenRecorder.m */,
+				3FE19CC817ED2245004F64B9 /* SRUITouch.h */,
+				3FE19CC917ED2245004F64B9 /* SRUITouch.m */,
+				3FE19CCA17ED2245004F64B9 /* SRUIViewRecorder.h */,
+				3FE19CCB17ED2245004F64B9 /* SRUIViewRecorder.m */,
+				3FE19CCC17ED2245004F64B9 /* SRUIWindow.h */,
+				3FE19CCD17ED2245004F64B9 /* SRUIWindow.m */,
+				3FE19CCE17ED2245004F64B9 /* SRUtils.h */,
+				3FE19CCF17ED2245004F64B9 /* SRUtils.m */,
+				3FE19CD017ED2245004F64B9 /* SRVideo.h */,
+				3FE19CD117ED2245004F64B9 /* SRVideo.m */,
+				3FE19CD217ED2245004F64B9 /* SRVideoWriter.h */,
+				3FE19CD317ED2245004F64B9 /* SRVideoWriter.m */,
+			);
+			name = "Screen Record";
+			path = "Library/Screen Record";
+			sourceTree = "<group>";
+		};
+		3FE19D7B17EE4BC2004F64B9 /* http */ = {
+			isa = PBXGroup;
+			children = (
+				3FE19D7817EE4BBA004F64B9 /* SRHTTPClient.h */,
+				3FE19D7917EE4BBA004F64B9 /* SRHTTPClient.m */,
+			);
+			name = http;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,14 +477,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F5971111757217000971B9B /* main.m in Sources */,
+				3FE19CD717ED2245004F64B9 /* SRRecorder.m in Sources */,
+				3FE19D6E17ED8AAB004F64B9 /* SRModalViewController.m in Sources */,
 				3F5971151757217000971B9B /* SRAppDelegate.m in Sources */,
 				3F5971211757217000971B9B /* SRViewController.m in Sources */,
 				3F597142175721DC00971B9B /* SRReporter.m in Sources */,
 				3F59714B175725F000971B9B /* UIWindow+SRReporter.m in Sources */,
+				3FE19D7E17EEDBC0004F64B9 /* SRVideoReporter.m in Sources */,
+				3FE19CDB17ED2245004F64B9 /* SRUITouch.m in Sources */,
+				3FE19CD417ED2245004F64B9 /* SRCameraRecorder.m in Sources */,
+				3FE19CD617ED2245004F64B9 /* SRDefines.m in Sources */,
+				3FE19CDD17ED2245004F64B9 /* SRUIWindow.m in Sources */,
+				3FE19CDF17ED2245004F64B9 /* SRVideo.m in Sources */,
 				3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */,
+				3FE19D7A17EE4BBA004F64B9 /* SRHTTPClient.m in Sources */,
 				35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
+				3FE19CD517ED2245004F64B9 /* SRCGUtils.m in Sources */,
+				3FE19CD817ED2245004F64B9 /* SRScreenRecorder.m in Sources */,
 				35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */,
+				3FE19CDE17ED2245004F64B9 /* SRUtils.m in Sources */,
+				3FE19CDC17ED2245004F64B9 /* SRUIViewRecorder.m in Sources */,
+				3FE19CE017ED2245004F64B9 /* SRVideoWriter.m in Sources */,
 				35477F6D175DCB860069D3AC /* JSONKit.m in Sources */,
+				3FE7F93717EBCE8C00DF0EFB /* SRReportLoadingView.m in Sources */,
 				3F7BEEC217C8903B004020BD /* SRReportViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +615,10 @@
 		3F59713A1757217000971B9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/ShakeReport\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReport/ShakeReport-Info.plist";
@@ -492,6 +631,10 @@
 		3F59713B1757217000971B9B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/ShakeReport\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReport/ShakeReport-Info.plist";

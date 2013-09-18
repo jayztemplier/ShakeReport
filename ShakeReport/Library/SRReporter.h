@@ -3,7 +3,7 @@
 //  ShakeReport
 //
 //  Created by Jeremy Templier on 5/29/13.
-//  Copyright (c) 2013 Jayztemplier. All rights reserved.
+//  Copyright (c) 2013 Jeremy Templier. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,20 +15,28 @@
 typedef NSString* (^SRCustomInformationBlock)();
 
 
-@interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, SRReportViewControllerDelegate>
+@interface SRReporter : NSObject <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate, SRReportViewControllerDelegate, NSURLConnectionDataDelegate>
 
 @property (readwrite, nonatomic, copy) SRCustomInformationBlock customInformationBlock;
 @property (nonatomic, copy) NSString *defaultEmailAddress;
 @property (nonatomic, copy) NSURL *backendURL;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *password;
+@property (nonatomic, assign) BOOL lastSessionCrashed;
 
-+ (id)reporter;
++ (instancetype)reporter;
+
 - (void)startListenerConnectedToBackendURL:(NSURL *)url;
 - (void)startListener;
+
+- (void)stopListener;
 
 - (void)setCustomInformationBlock:(NSString* (^)())block;
 
 - (void)sendNewReport;
 - (void)saveToCrashFile:(NSString *)crashContent;
+- (void)onCrash:(NSException *)exception;
+
+- (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
+- (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer;
 @end

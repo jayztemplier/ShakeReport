@@ -3,28 +3,31 @@
 //  ShakeReport
 //
 //  Created by Jeremy Templier on 5/29/13.
-//  Copyright (c) 2013 Jayztemplier. All rights reserved.
+//  Copyright (c) 2013 Jeremy Templier. All rights reserved.
 //
 
 #import "SRAppDelegate.h"
 #import "SRReporter.h"
+#import "SRVideoReporter.h"
 
 @implementation SRAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    SRReporter *reporter = [SRReporter reporter];
-    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
-    [reporter setCustomInformationBlock:^NSString *{
-        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
-    }];
-    [reporter startListener];
+    SRVideoReporter *reporter = [SRVideoReporter reporter];
+//    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
+//    [reporter setCustomInformationBlock:^NSString *{
+//        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
+//    }];
+//    [reporter startListener];
+//    [reporter startScreenRecorder];
     
     // Send data to a Server instead of displaying the mail composer
-//    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
-//    [reporter setUsername:@"jayztemplier"];
-//    [reporter setPassword:@"mypassword"];
-//    [reporter startListenerConnectedToBackendURL:url];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:3000"];
+    [reporter setUsername:@"jayztemplier"];
+    [reporter setPassword:@"mypassword"];
+    [reporter startListenerConnectedToBackendURL:url];
+    [reporter startScreenRecorderWithMaxDurationPerVideo:30];
     return YES;
 }
 
@@ -52,7 +55,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[SRReporter reporter] stopListener];
 }
 
 @end
