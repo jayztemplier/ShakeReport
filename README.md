@@ -98,6 +98,10 @@ If you backend is protected with a username and a password, you have to setup th
 	[reporter setUsername:@"jayztemplier"];
 	[reporter setPassword:@"mypassword"];
 
+# Known Issues
+
+* with screen capture enable, the second report does not contain the video.
+
 # License
 SRReport is available under the MIT license. See the LICENSE file for more info
 
