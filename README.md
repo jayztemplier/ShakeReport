@@ -100,3 +100,7 @@ If you backend is protected with a username and a password, you have to setup th
 
 # License
 SRReport is available under the MIT license. See the LICENSE file for more info
+
+# Inspiration & Help from others
+### AFNetworking
+I would like to mention AFNetworking, super useful HTTP library. I used it to create the http request that upload the video to the SRReport backend. I explicitely renamed AFHTTPClient in SRHTTPClient to allow users to use AFNetworking v2 or v1.x without having any conflict with SRReport
