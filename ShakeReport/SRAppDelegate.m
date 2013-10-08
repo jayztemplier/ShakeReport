@@ -14,20 +14,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    SRVideoReporter *reporter = [SRVideoReporter reporter];
+//    SRReporter *reporter = [SRReporter reporter];
 //    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
 //    [reporter setCustomInformationBlock:^NSString *{
 //        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
 //    }];
 //    [reporter startListener];
-//    [reporter startScreenRecorder];
     
     // Send data to a Server instead of displaying the mail composer
+    SRVideoReporter *reporter = [SRVideoReporter reporter];
     NSURL *url = [NSURL URLWithString:@"http://localhost:3000"];
     [reporter setUsername:@"jayztemplier"];
     [reporter setPassword:@"mypassword"];
     [reporter startListenerConnectedToBackendURL:url];
     [reporter startScreenRecorderWithMaxDurationPerVideo:30];
+
     return YES;
 }
 
