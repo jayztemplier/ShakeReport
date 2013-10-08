@@ -26,6 +26,10 @@ Add those frameworks to your target:
 
 * QuartzCore
 * MessageUI
+* CoreVideo
+* CoreMedia
+* AVFoundation
+* AssetsLibrary
 
 Copy the `library` folder in your project.
 
@@ -33,7 +37,7 @@ Include `SRReporter.h`
 
 Then, copy this line to start the reporter:
 
-	- (BOOL)application:(UIApplication *)application 
+    - (BOOL)application:(UIApplication *)application 
 			didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 	{
    		[[SRReporter reporter] startListener]; //this line starts the reporter
@@ -46,11 +50,28 @@ Then, copy this line to start the reporter:
 **Shake** the iDevice when you want to report something. A Mail Composer view will appear with all the information that will be send. The tester can add some explanation, and change the recipient of the email.
 
 # Configurations
+### Without Screen Capture
 You can setup the default email address that should receive the reports:
 
 	SRReporter *reporter = [SRReporter reporter];
     [reporter setDefaultEmailAddress:@"templier.jeremy@gmail.com"];
     [reporter startListener];
+
+### With Screen Capture
+You basically have 2 options. The first one is to record the entire session:
+    #include "SRVideoReporter.h"
+    
+    SRVideoReporter *reporter = [SRVideoReporter reporter];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:3000"];
+    [reporter setUsername:@"jayztemplier"];
+    [reporter setPassword:@"mypassword"];
+    [reporter startListenerConnectedToBackendURL:url];
+    [reporter startScreenRecorder];
+
+But be careful, the entire video will be recorded on the user's device. That's why we recommend you to set a max duration for the video. To do so, you just have to replace the last line of the previous example by:
+
+    // replace [reporter startScreenRecorder]; by
+    [reporter startScreenRecorderWithMaxDurationPerVideo:30]; //max duration = 30 sec
 
 # Additional Information
 If you need to add custom information to the reports sent by email, you can do it!
