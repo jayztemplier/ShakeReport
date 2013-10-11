@@ -7,6 +7,7 @@
 //
 
 #import "ShakeReportTests.h"
+#import "SRReporter.h"
 
 @implementation ShakeReportTests
 
@@ -14,19 +15,18 @@
 {
     [super setUp];
     
-    // Set-up code here.
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
-    
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testSingleton
 {
-    STFail(@"Unit tests are not implemented yet in ShakeReportTests");
+    SRReporter *report = [SRReporter reporter];
+    STAssertEquals(report, [SRReporter reporter], @"should always be the same object");
 }
 
 @end
