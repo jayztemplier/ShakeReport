@@ -55,4 +55,11 @@
         [_delegate reportControllerDidPressSend:self];
     }
 }
+
+- (IBAction)cancelPressed:(id)sender
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(reportControllerDidPressCancel:)]) {
+        [_delegate reportControllerDidPressCancel:self];
+    }
+}
 @end

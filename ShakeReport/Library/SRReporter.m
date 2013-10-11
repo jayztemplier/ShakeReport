@@ -364,6 +364,11 @@ void uncaughtExceptionHandler(NSException *exception) {
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)reportControllerDidPressCancel:(SRReportViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - URL Connection Delegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {

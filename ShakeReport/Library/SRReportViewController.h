@@ -11,6 +11,7 @@
 @class SRReportViewController;
 @protocol SRReportViewControllerDelegate <NSObject>
 - (void)reportControllerDidPressSend:(SRReportViewController *)controller;
+- (void)reportControllerDidPressCancel:(SRReportViewController *)controller;
 @end
 
 @interface SRReportViewController : UIViewController
