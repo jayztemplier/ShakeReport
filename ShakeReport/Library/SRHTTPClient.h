@@ -15,17 +15,6 @@ typedef enum {
 } SRURLConnectionOperationSSLPinningMode;
 
 
-#ifdef _SYSTEMCONFIGURATION_H
-typedef enum {
-    SRNetworkReachabilityStatusUnknown          = -1,
-    SRNetworkReachabilityStatusNotReachable     = 0,
-    SRNetworkReachabilityStatusReachableViaWWAN = 1,
-    SRNetworkReachabilityStatusReachableViaWiFi = 2,
-} SRNetworkReachabilityStatus;
-#else
-#pragma message("SystemConfiguration framework not found in project, or not included in precompiled header. Network reachability functionality will not be available.")
-#endif
-
 #ifndef __UTTYPE__
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
 #pragma message("MobileCoreServices framework not found in project, or not included in precompiled header. Automatic MIME type detection when uploading files in multipart requests will not be available.")
@@ -50,16 +39,10 @@ typedef enum {
 @property (nonatomic, assign) NSStringEncoding stringEncoding;
 @property (nonatomic, assign) SRHTTPClientParameterEncoding parameterEncoding;
 @property (readonly, nonatomic, strong) NSOperationQueue *operationQueue;
-#ifdef _SYSTEMCONFIGURATION_H
-@property (readonly, nonatomic, assign) SRNetworkReachabilityStatus networkReachabilityStatus;
-#endif
 @property (nonatomic, assign) SRURLConnectionOperationSSLPinningMode defaultSSLPinningMode;
 @property (nonatomic, assign) BOOL allowsInvalidSSLCertificate;
 + (instancetype)clientWithBaseURL:(NSURL *)url;
 - (id)initWithBaseURL:(NSURL *)url;
-#ifdef _SYSTEMCONFIGURATION_H
-- (void)setReachabilityStatusChangeBlock:(void (^)(SRNetworkReachabilityStatus status))block;
-#endif
 - (BOOL)registerHTTPOperationClass:(Class)operationClass;
 - (void)unregisterHTTPOperationClass:(Class)operationClass;
 - (NSString *)defaultValueForHeader:(NSString *)header;
@@ -111,10 +94,6 @@ typedef enum {
 @end
 
 extern NSString * SRQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSStringEncoding encoding);
-#ifdef _SYSTEMCONFIGURATION_H
-extern NSString * const SRNetworkingReachabilityDidChangeNotification;
-extern NSString * const SRNetworkingReachabilityNotificationStatusItem;
-#endif
 
 #pragma mark -
 

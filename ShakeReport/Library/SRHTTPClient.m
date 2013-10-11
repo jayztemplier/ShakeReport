@@ -11,29 +11,13 @@
 
 #import <Availability.h>
 
-#ifdef _SYSTEMCONFIGURATION_H
-#import <netinet/in.h>
-#import <netinet6/in6.h>
-#import <arpa/inet.h>
-#import <ifaddrs.h>
-#import <netdb.h>
-#endif
-
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
 #endif
 
 NSString * const SRNetworkingErrorDomain = @"SRNetworkingErrorDomain";
 
-#ifdef _SYSTEMCONFIGURATION_H
-NSString * const SRNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
-NSString * const SRNetworkingReachabilityNotificationStatusItem = @"SRNetworkingReachabilityNotificationStatusItem";
-
-typedef SCNetworkReachabilityRef SRNetworkReachabilityRef;
-typedef void (^SRNetworkReachabilityStatusBlock)(SRNetworkReachabilityStatus status);
-#else
 typedef id SRNetworkReachabilityRef;
-#endif
 
 typedef void (^SRCompletionBlock)(void);
 
@@ -173,16 +157,6 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
 @property (readwrite, nonatomic, strong) NSURLCredential *defaultCredential;
 @property (readwrite, nonatomic, strong) NSOperationQueue *operationQueue;
-#ifdef _SYSTEMCONFIGURATION_H
-@property (readwrite, nonatomic, assign) SRNetworkReachabilityRef networkReachability;
-@property (readwrite, nonatomic, assign) SRNetworkReachabilityStatus networkReachabilityStatus;
-@property (readwrite, nonatomic, copy) SRNetworkReachabilityStatusBlock networkReachabilityStatusBlock;
-#endif
-
-#ifdef _SYSTEMCONFIGURATION_H
-- (void)startMonitoringNetworkReachability;
-- (void)stopMonitoringNetworkReachability;
-#endif
 @end
 
 @implementation SRHTTPClient
@@ -193,11 +167,6 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 @synthesize defaultHeaders = _defaultHeaders;
 @synthesize defaultCredential = _defaultCredential;
 @synthesize operationQueue = _operationQueue;
-#ifdef _SYSTEMCONFIGURATION_H
-@synthesize networkReachability = _networkReachability;
-@synthesize networkReachabilityStatus = _networkReachabilityStatus;
-@synthesize networkReachabilityStatusBlock = _networkReachabilityStatusBlock;
-#endif
 @synthesize defaultSSLPinningMode = _defaultSSLPinningMode;
 @synthesize allowsInvalidSSLCertificate = _allowsInvalidSSLCertificate;
 
@@ -259,11 +228,6 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         [self setDefaultHeader:@"User-Agent" value:userAgent];
     }
 
-#ifdef _SYSTEMCONFIGURATION_H
-    self.networkReachabilityStatus = SRNetworkReachabilityStatusUnknown;
-    [self startMonitoringNetworkReachability];
-#endif
-
     self.operationQueue = [[NSOperationQueue alloc] init];
 	[self.operationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
 
@@ -275,128 +239,10 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     return self;
 }
 
-- (void)dealloc {
-#ifdef _SYSTEMCONFIGURATION_H
-    [self stopMonitoringNetworkReachability];
-#endif
-}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p, baseURL: %@, defaultHeaders: %@, registeredOperationClasses: %@, operationQueue: %@>", NSStringFromClass([self class]), self, [self.baseURL absoluteString], self.defaultHeaders, self.registeredHTTPOperationClassNames, self.operationQueue];
 }
-
-#pragma mark -
-
-#ifdef _SYSTEMCONFIGURATION_H
-static BOOL SRURLHostIsIPAddress(NSURL *url) {
-    struct sockaddr_in sa_in;
-    struct sockaddr_in6 sa_in6;
-
-    return [url host] && (inet_pton(SR_INET, [[url host] UTF8String], &sa_in) == 1 || inet_pton(SR_INET6, [[url host] UTF8String], &sa_in6) == 1);
-}
-
-static SRNetworkReachabilityStatus SRNetworkReachabilityStatusForFlags(SCNetworkReachabilityFlags flags) {
-    BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
-    BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
-    BOOL canConnectionAutomatically = (((flags & kSCNetworkReachabilityFlagsConnectionOnDemand ) != 0) || ((flags & kSCNetworkReachabilityFlagsConnectionOnTrSRfic) != 0));
-    BOOL canConnectWithoutUserInteraction = (canConnectionAutomatically && (flags & kSCNetworkReachabilityFlagsInterventionRequired) == 0);
-    BOOL isNetworkReachable = (isReachable && (!needsConnection || canConnectWithoutUserInteraction));
-
-    SRNetworkReachabilityStatus status = SRNetworkReachabilityStatusUnknown;
-    if (isNetworkReachable == NO) {
-        status = SRNetworkReachabilityStatusNotReachable;
-    }
-#if	TARGET_OS_IPHONE
-    else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
-        status = SRNetworkReachabilityStatusReachableViaWWAN;
-    }
-#endif
-    else {
-        status = SRNetworkReachabilityStatusReachableViaWiFi;
-    }
-
-    return status;
-}
-
-static void SRNetworkReachabilityCallback(SCNetworkReachabilityRef __unused target, SCNetworkReachabilityFlags flags, void *info) {
-    SRNetworkReachabilityStatus status = SRNetworkReachabilityStatusForFlags(flags);
-    SRNetworkReachabilityStatusBlock block = (__bridge SRNetworkReachabilityStatusBlock)info;
-    if (block) {
-        block(status);
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        [notificationCenter postNotificationName:SRNetworkingReachabilityDidChangeNotification object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:status] forKey:SRNetworkingReachabilityNotificationStatusItem]];
-    });
-}
-
-static const void * SRNetworkReachabilityRetainCallback(const void *info) {
-    return Block_copy(info);
-}
-
-static void SRNetworkReachabilityReleaseCallback(const void *info) {
-    if (info) {
-        Block_release(info);
-    }
-}
-
-- (void)startMonitoringNetworkReachability {
-    [self stopMonitoringNetworkReachability];
-
-    if (!self.baseURL) {
-        return;
-    }
-
-    self.networkReachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, [[self.baseURL host] UTF8String]);
-
-    if (!self.networkReachability) {
-        return;
-    }
-
-    __weak __typeof(&*self)weakSelf = self;
-    SRNetworkReachabilityStatusBlock callback = ^(SRNetworkReachabilityStatus status) {
-        __strong __typeof(&*weakSelf)strongSelf = weakSelf;
-        if (!strongSelf) {
-            return;
-        }
-
-        strongSelf.networkReachabilityStatus = status;
-        if (strongSelf.networkReachabilityStatusBlock) {
-            strongSelf.networkReachabilityStatusBlock(status);
-        }
-    };
-
-    SCNetworkReachabilityContext context = {0, (__bridge void *)callback, SRNetworkReachabilityRetainCallback, SRNetworkReachabilityReleaseCallback, NULL};
-    SCNetworkReachabilitySetCallback(self.networkReachability, SRNetworkReachabilityCallback, &context);
-
-    /* Network reachability monitoring does not establish a baseline for IP addresses as it does for hostnames, so if the base URL host is an IP address, the initial reachability callback is manually triggered.
-     */
-    if (SRURLHostIsIPAddress(self.baseURL)) {
-        SCNetworkReachabilityFlags flags;
-        SCNetworkReachabilityGetFlags(self.networkReachability, &flags);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            SRNetworkReachabilityStatus status = SRNetworkReachabilityStatusForFlags(flags);
-            callback(status);
-        });
-    }
-
-    SCNetworkReachabilityScheduleWithRunLoop(self.networkReachability, CFRunLoopGetMain(), kCFRunLoopCommonModes);
-}
-
-- (void)stopMonitoringNetworkReachability {
-    if (self.networkReachability) {
-        SCNetworkReachabilityUnscheduleFromRunLoop(self.networkReachability, CFRunLoopGetMain(), kCFRunLoopCommonModes);
-
-        CFRelease(_networkReachability);
-        _networkReachability = NULL;
-    }
-}
-
-- (void)setReachabilityStatusChangeBlock:(void (^)(SRNetworkReachabilityStatus status))block {
-    self.networkReachabilityStatusBlock = block;
-}
-#endif
 
 #pragma mark -
 
@@ -600,9 +446,6 @@ static void SRNetworkReachabilityReleaseCallback(const void *info) {
     HTTPClient.parameterEncoding = self.parameterEncoding;
     HTTPClient.registeredHTTPOperationClassNames = [self.registeredHTTPOperationClassNames mutableCopyWithZone:zone];
     HTTPClient.defaultHeaders = [self.defaultHeaders mutableCopyWithZone:zone];
-#ifdef _SYSTEMCONFIGURATION_H
-    HTTPClient.networkReachabilityStatusBlock = self.networkReachabilityStatusBlock;
-#endif
     return HTTPClient;
 }
 
