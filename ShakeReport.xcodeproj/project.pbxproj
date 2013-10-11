@@ -8,13 +8,34 @@
 
 /* Begin PBXBuildFile section */
 		35477F6D175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		35477F6E175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; };
+		35477F6E175DCB860069D3AC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 35477F6C175DCB860069D3AC /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
 		35F4873F175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
 		3F2B548B17573D8200DF3193 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548A17573D8200DF3193 /* QuartzCore.framework */; };
 		3F2B548D1757434100DF3193 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548C1757434100DF3193 /* MessageUI.framework */; };
+		3F37881718089CF400F60303 /* SRHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19D7917EE4BBA004F64B9 /* SRHTTPClient.m */; };
+		3F37881818089D0B00F60303 /* SRCameraRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBA17ED2245004F64B9 /* SRCameraRecorder.m */; };
+		3F37881918089D0B00F60303 /* SRCGUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBC17ED2245004F64B9 /* SRCGUtils.m */; };
+		3F37881A18089D0B00F60303 /* SRDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBE17ED2245004F64B9 /* SRDefines.m */; };
+		3F37881B18089D0B00F60303 /* SRRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CC117ED2245004F64B9 /* SRRecorder.m */; };
+		3F37881C18089D0B00F60303 /* SRScreenRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CC317ED2245004F64B9 /* SRScreenRecorder.m */; };
+		3F37881D18089D0B00F60303 /* SRUITouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CC917ED2245004F64B9 /* SRUITouch.m */; };
+		3F37881E18089D0B00F60303 /* SRUIViewRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CCB17ED2245004F64B9 /* SRUIViewRecorder.m */; };
+		3F37881F18089D0B00F60303 /* SRUIWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CCD17ED2245004F64B9 /* SRUIWindow.m */; };
+		3F37882018089D0B00F60303 /* SRUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CCF17ED2245004F64B9 /* SRUtils.m */; };
+		3F37882118089D0B00F60303 /* SRVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CD117ED2245004F64B9 /* SRVideo.m */; };
+		3F37882218089D0B00F60303 /* SRVideoWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CD317ED2245004F64B9 /* SRVideoWriter.m */; };
+		3F37882318089D5200F60303 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AE17E8396D0037A60A /* CoreVideo.framework */; };
+		3F37882418089D5700F60303 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AC17E839670037A60A /* CoreMedia.framework */; };
+		3F37882518089D5E00F60303 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83AA17E839620037A60A /* AVFoundation.framework */; };
+		3F37882618089D6400F60303 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEE83A817E8395B0037A60A /* AssetsLibrary.framework */; };
+		3F37882718089D6B00F60303 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE19D7317EE3E40004F64B9 /* CFNetwork.framework */; };
+		3F37882818089D7100F60303 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FEA764517EAFE2A00FF9C5B /* Security.framework */; };
+		3F37882918089D7A00F60303 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548C1757434100DF3193 /* MessageUI.framework */; };
+		3F37882A18089D8000F60303 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548A17573D8200DF3193 /* QuartzCore.framework */; };
+		3F37882B18089D8900F60303 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5971081757217000971B9B /* CoreGraphics.framework */; };
 		3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */; };
 		3F4F09FA1758674F009EA80A /* SRMethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */; };
 		3F5971051757217000971B9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5971041757217000971B9B /* UIKit.framework */; };
@@ -175,6 +196,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F37882B18089D8900F60303 /* CoreGraphics.framework in Frameworks */,
+				3F37882A18089D8000F60303 /* QuartzCore.framework in Frameworks */,
+				3F37882918089D7A00F60303 /* MessageUI.framework in Frameworks */,
+				3F37882818089D7100F60303 /* Security.framework in Frameworks */,
+				3F37882718089D6B00F60303 /* CFNetwork.framework in Frameworks */,
+				3F37882618089D6400F60303 /* AssetsLibrary.framework in Frameworks */,
+				3F37882518089D5E00F60303 /* AVFoundation.framework in Frameworks */,
+				3F37882418089D5700F60303 /* CoreMedia.framework in Frameworks */,
+				3F37882318089D5200F60303 /* CoreVideo.framework in Frameworks */,
 				3F5971291757217000971B9B /* SenTestingKit.framework in Frameworks */,
 				3F59712A1757217000971B9B /* UIKit.framework in Frameworks */,
 				3F59712B1757217000971B9B /* Foundation.framework in Frameworks */,
@@ -508,12 +538,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F37881D18089D0B00F60303 /* SRUITouch.m in Sources */,
+				3F37881918089D0B00F60303 /* SRCGUtils.m in Sources */,
+				3F37881F18089D0B00F60303 /* SRUIWindow.m in Sources */,
+				3F37882218089D0B00F60303 /* SRVideoWriter.m in Sources */,
 				3F5971361757217000971B9B /* ShakeReportTests.m in Sources */,
+				3F37881A18089D0B00F60303 /* SRDefines.m in Sources */,
 				3F597143175721DC00971B9B /* SRReporter.m in Sources */,
+				3F37882118089D0B00F60303 /* SRVideo.m in Sources */,
 				3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */,
 				3F4F09FA1758674F009EA80A /* SRMethodSwizzler.m in Sources */,
+				3F37881E18089D0B00F60303 /* SRUIViewRecorder.m in Sources */,
 				35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
+				3F37881C18089D0B00F60303 /* SRScreenRecorder.m in Sources */,
+				3F37881818089D0B00F60303 /* SRCameraRecorder.m in Sources */,
+				3F37881718089CF400F60303 /* SRHTTPClient.m in Sources */,
 				35F4873F175B10C500E8F4EA /* NSString+HTML.m in Sources */,
+				3F37882018089D0B00F60303 /* SRUtils.m in Sources */,
+				3F37881B18089D0B00F60303 /* SRRecorder.m in Sources */,
 				35477F6E175DCB860069D3AC /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
