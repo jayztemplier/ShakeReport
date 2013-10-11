@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jayztemplier/ShakeReport.png)](https://travis-ci.org/jayztemplier/ShakeReport.png)
+
 # SRReport
 
 <!-- MacBuildServer Install Button -->
