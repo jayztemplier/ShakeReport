@@ -33,10 +33,12 @@ typedef NSString* (^SRCustomInformationBlock)();
 
 - (void)setCustomInformationBlock:(NSString* (^)())block;
 
+- (BOOL)canSendNewReport;
 - (void)sendNewReport;
 - (void)saveToCrashFile:(NSString *)crashContent;
 - (void)onCrash:(NSException *)exception;
 
 - (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer;
+- (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
 @end

@@ -28,6 +28,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
 @property (nonatomic, strong) UIImage *tempScreenshot;
 @property (nonatomic, strong) SRReportLoadingView *loadingView;
+@property (nonatomic, assign) BOOL composerDisplayed;
 @end
 
 @implementation SRReporter
@@ -101,8 +102,16 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark Report
+- (BOOL)canSendNewReport
+{
+    return !_composerDisplayed;
+}
+
 - (void)sendNewReport
 {
+    if (![self canSendNewReport]) {
+        return;
+    }
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
         _tempScreenshot = [self screenshot];
@@ -113,6 +122,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     } else {
         [self showMailComposer];
     }
+    _composerDisplayed = YES;
 }
 
 - (void)presentReportComposer:(UIViewController *)composerController inViewController:(UIViewController *)rootViewController
@@ -284,7 +294,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     mailController.modalPresentationStyle = UIModalPresentationPageSheet;
     [self addAttachmentsToMailComposer:mailController];
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    [window.rootViewController presentViewController:mailController animated:YES completion:NO];
+    [self presentReportComposer:mailController inViewController:window.rootViewController];
+    _composerDisplayed = YES;
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)mailController didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -292,6 +303,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (self.mailController) {
         [self.mailController dismissViewControllerAnimated:YES completion:nil];
         self.mailController = nil;
+        _composerDisplayed = NO;
     }
 }
 
@@ -362,11 +374,13 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSString *message = controller.message;
     [self sendToServerWithTitle:title andMessage:message];
     [controller dismissViewControllerAnimated:YES completion:nil];
+    _composerDisplayed = NO;
 }
 
 - (void)reportControllerDidPressCancel:(SRReportViewController *)controller
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
+    _composerDisplayed = NO;
 }
 
 #pragma mark - URL Connection Delegate
