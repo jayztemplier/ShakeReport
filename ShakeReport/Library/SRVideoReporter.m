@@ -73,27 +73,37 @@
 #pragma mark Report
 - (void)sendNewReport
 {
-    if ([[SRRecorder sharedRecorder] isRecording]) {
-        [[SRRecorder sharedRecorder] stop:nil];
-        [[SRRecorder sharedRecorder] saveVideoToAlbumWithName:@"Shake Report" resultBlock:^(NSURL *URL) {
-            
-        } failureBlock:^(NSError *error) {
-            
-        }];
+    if (![self canSendNewReport]) {
+        return;
     }
-    [[SRRecorder sharedRecorder] mergeVideos];
+    if (_screenCaptureEnabled) {
+        if ([[SRRecorder sharedRecorder] isRecording]) {
+            [[SRRecorder sharedRecorder] stop:nil];
+            [[SRRecorder sharedRecorder] saveVideoToAlbumWithName:@"Shake Report" resultBlock:^(NSURL *URL) {
+                
+            } failureBlock:^(NSError *error) {
+                
+            }];
+        }
+        [[SRRecorder sharedRecorder] mergeVideos];
+    }
     [super sendNewReport];
 }
 
 - (void)onCrash:(NSException *)exception
 {
     [super onCrash:exception];
-    [[SRRecorder sharedRecorder] stop:nil];
+    if (_screenCaptureEnabled) {
+        [[SRRecorder sharedRecorder] stop:nil];
+    }
 }
 
 #pragma mark - URL Connection 
 - (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
 {
+    if (!_screenCaptureEnabled) {
+        return [super requestForHTTPReportWithTitle:title andMessage:message];
+    }
     NSMutableDictionary *reportParams = [[self paramsForHTTPReportWithTitle:title andMessage:message] mutableCopy];
     NSData *screenCapture;
     NSString *videoFile = [[SRRecorder sharedRecorder] screenCaptureVideoPath];
@@ -125,10 +135,13 @@
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer
 {
     [super addAttachmentsToMailComposer:mailComposer];
-    NSString *videoFile = [[SRRecorder sharedRecorder] screenCaptureVideoPath];
-    if (videoFile && [SRUtils sr_exist:videoFile]) {
-        NSData *screenCapture = [NSData dataWithContentsOfFile:videoFile];
-        [mailComposer addAttachmentData:screenCapture mimeType:@"video/MP4" fileName:@"screen_capture.mp4"];
+    
+    if (_screenCaptureEnabled) {
+        NSString *videoFile = [[SRRecorder sharedRecorder] screenCaptureVideoPath];
+        if (videoFile && [SRUtils sr_exist:videoFile]) {
+            NSData *screenCapture = [NSData dataWithContentsOfFile:videoFile];
+            [mailComposer addAttachmentData:screenCapture mimeType:@"video/MP4" fileName:@"screen_capture.mp4"];
+        }
     }
     
 }
