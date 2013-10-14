@@ -20,6 +20,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, CGRectGetWidth(frame), 30)];
         label.text = @"Sending Report";
         label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:15.f];
         [self addSubview:label];
