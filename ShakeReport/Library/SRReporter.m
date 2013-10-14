@@ -11,7 +11,6 @@
 #import "UIWindow+SRReporter.h"
 #import "NSData+Base64.h"
 #import "NSString+HTML.h"
-#import "JSONKit.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SRReportViewController.h"
 #import "SRHTTPClient.h"
