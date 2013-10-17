@@ -100,6 +100,12 @@ If you backend is protected with a username and a password, you have to setup th
 	[reporter setUsername:@"jayztemplier"];
 	[reporter setPassword:@"mypassword"];
 
+# Tips
+### Manually display the report composer
+    [[SRReporter reporter] displayReportComposer];
+### Disable the Shake motion detection
+    [reporter setDisplayReportComposerWhenShakeDevice:NO];
+
 # Known Issues
 
 * with screen capture enable, the second report does not contain the video.
