@@ -15,7 +15,10 @@
 
 - (void)SR_motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    [[SRReporter reporter] sendNewReport];
+    SRReporter *reporter = [SRReporter reporter];
+    if ([reporter displayReportComposerWhenShakeDevice]) {
+        [reporter displayReportComposer];
+    }
     [self SR_motionEnded:motion withEvent:event];
 }
 

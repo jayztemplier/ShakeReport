@@ -71,7 +71,7 @@
 }
 
 #pragma mark Report
-- (void)sendNewReport
+- (void)displayReportComposer
 {
     if (![self canSendNewReport]) {
         return;
@@ -87,7 +87,7 @@
         }
         [[SRRecorder sharedRecorder] mergeVideos];
     }
-    [super sendNewReport];
+    [super displayReportComposer];
 }
 
 - (void)onCrash:(NSException *)exception

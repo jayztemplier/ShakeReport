@@ -23,6 +23,7 @@ typedef NSString* (^SRCustomInformationBlock)();
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, assign) BOOL lastSessionCrashed;
+@property (nonatomic, assign) BOOL displayReportComposerWhenShakeDevice;
 
 + (instancetype)reporter;
 
@@ -33,8 +34,12 @@ typedef NSString* (^SRCustomInformationBlock)();
 
 - (void)setCustomInformationBlock:(NSString* (^)())block;
 
+/**
+ Display one of the report composer (depends on the settings).
+ Call this method if you want to link a button to the action of creating a new report.
+ **/
+- (void)displayReportComposer;
 - (BOOL)canSendNewReport;
-- (void)sendNewReport;
 - (void)saveToCrashFile:(NSString *)crashContent;
 - (void)onCrash:(NSException *)exception;
 

@@ -48,6 +48,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (self) {
         _lastSessionCrashed = [self crashFlag];
         [self setCrashFlag:NO];
+        _displayReportComposerWhenShakeDevice = YES;
     }
     return self;
 }
@@ -106,7 +107,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     return !_composerDisplayed;
 }
 
-- (void)sendNewReport
+- (void)displayReportComposer
 {
     if (![self canSendNewReport]) {
         return;
