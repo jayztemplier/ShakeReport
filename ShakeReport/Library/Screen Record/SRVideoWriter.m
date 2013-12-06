@@ -392,7 +392,7 @@
 
   static CGColorSpaceRef ColorSpace = NULL;
   if (ColorSpace == NULL) ColorSpace = CGColorSpaceCreateDeviceRGB();
-  CGContextRef context = CGBitmapContextCreate(_data, _videoSize.width, _videoSize.height, 8, _bytesPerRow, ColorSpace, kCGImageAlphaNoneSkipFirst);
+  CGContextRef context = CGBitmapContextCreate(_data, _videoSize.width, _videoSize.height, 8, _bytesPerRow, ColorSpace, (CGBitmapInfo)kCGImageAlphaNoneSkipFirst);
   // Whether anti-aliasing is allowed (Doesn't enable, see CGContextSetShouldAntialias)
   CGContextSetAllowsAntialiasing(context, YES);
 
