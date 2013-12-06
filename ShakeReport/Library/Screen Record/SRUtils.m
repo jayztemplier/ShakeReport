@@ -14,14 +14,6 @@
 #define INOUT
 size_t cr_ybase64_encode(IN const void * from, IN const size_t from_len, OUT void * to, IN const size_t to_len);
 
-void SRDispatch(dispatch_block_t block) {
-  dispatch_async(dispatch_get_current_queue(), block);
-}
-
-void SRDispatchAfter(NSTimeInterval seconds, dispatch_block_t block) {
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC), dispatch_get_current_queue(), block);
-}
-
 
 @implementation SRUtils
 

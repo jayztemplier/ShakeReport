@@ -359,57 +359,6 @@ NSArray * SRQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     return [formData requestByFinalizingMultipartFormData];
 }
 
-#pragma mark -
-
-- (void)getPath:(NSString *)path
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-    SRHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)postPath:(NSString *)path
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-	SRHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)putPath:(NSString *)path
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"PUT" path:path parameters:parameters];
-	SRHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)deletePath:(NSString *)path
-        parameters:(NSDictionary *)parameters
-           success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-           failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure
-{
-	NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
-	SRHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
-
-- (void)patchPath:(NSString *)path
-       parameters:(NSDictionary *)parameters
-          success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-          failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure
-{
-    NSURLRequest *request = [self requestWithMethod:@"PATCH" path:path parameters:parameters];
-	SRHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
-}
 
 #pragma mark - NSCoding
 

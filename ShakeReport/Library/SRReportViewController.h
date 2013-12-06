@@ -17,6 +17,6 @@
 @interface SRReportViewController : UIViewController
 + (id)composer;
 @property (nonatomic, assign) id<SRReportViewControllerDelegate> delegate;
-@property (nonatomic, readonly) NSString *title;
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, readonly) NSString *message;
 @end

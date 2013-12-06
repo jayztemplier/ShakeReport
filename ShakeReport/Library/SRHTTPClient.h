@@ -43,7 +43,6 @@ typedef enum {
 @property (nonatomic, assign) BOOL allowsInvalidSSLCertificate;
 + (instancetype)clientWithBaseURL:(NSURL *)url;
 - (id)initWithBaseURL:(NSURL *)url;
-- (BOOL)registerHTTPOperationClass:(Class)operationClass;
 - (void)unregisterHTTPOperationClass:(Class)operationClass;
 - (NSString *)defaultValueForHeader:(NSString *)header;
 - (void)setDefaultHeader:(NSString *)header
@@ -60,37 +59,6 @@ typedef enum {
                                                    path:(NSString *)path
                                              parameters:(NSDictionary *)parameters
                               constructingBodyWithBlock:(void (^)(id <SRMultipartFormData> formData))block;
-- (SRHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
-                                                    success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-                                                    failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure;
-- (void)enqueueHTTPRequestOperation:(SRHTTPRequestOperation *)operation;
-- (void)cancelAllHTTPOperationsWithMethod:(NSString *)method path:(NSString *)path;
-- (void)enqueueBatchOfHTTPRequestOperationsWithRequests:(NSArray *)urlRequests
-                                          progressBlock:(void (^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations))progressBlock
-                                        completionBlock:(void (^)(NSArray *operations))completionBlock;
-- (void)enqueueBatchOfHTTPRequestOperations:(NSArray *)operations
-                              progressBlock:(void (^)(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations))progressBlock
-                            completionBlock:(void (^)(NSArray *operations))completionBlock;
-- (void)getPath:(NSString *)path
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure;
-- (void)postPath:(NSString *)path
-      parameters:(NSDictionary *)parameters
-         success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-         failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure;
-- (void)putPath:(NSString *)path
-     parameters:(NSDictionary *)parameters
-        success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-        failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure;
-- (void)deletePath:(NSString *)path
-        parameters:(NSDictionary *)parameters
-           success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-           failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure;
-- (void)patchPath:(NSString *)path
-       parameters:(NSDictionary *)parameters
-          success:(void (^)(SRHTTPRequestOperation *operation, id responseObject))success
-          failure:(void (^)(SRHTTPRequestOperation *operation, NSError *error))failure;
 @end
 
 extern NSString * SRQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSStringEncoding encoding);

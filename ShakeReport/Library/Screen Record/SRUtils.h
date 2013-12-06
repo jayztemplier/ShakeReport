@@ -14,5 +14,3 @@
 + (NSString *)machine;
 @end
 
-void SRDispatch(dispatch_block_t block);
-void SRDispatchAfter(NSTimeInterval seconds, dispatch_block_t block);
