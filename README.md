@@ -52,6 +52,19 @@ Then, copy this line to start the reporter:
 **Shake** the iDevice when you want to report something. A Mail Composer view will appear with all the information that will be send. The tester can add some explanation, and change the recipient of the email.
 
 # Configurations
+
+### Where should you start the listener ?
+Ideally, you want to start the listen when the application becomes active, and stop it when it enters in background:
+	- (void)applicationDidBecomeActive:(UIApplication *)application
+	{
+    		[[SRReporter reporter] startListener];
+	}
+
+	- (void)applicationDidEnterBackground:(UIApplication *)application
+	{
+    		[[SRReporter reporter] stopListener];
+	}
+
 ### Without Screen Capture
 You can setup the default email address that should receive the reports:
 
