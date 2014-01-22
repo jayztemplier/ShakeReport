@@ -65,7 +65,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     [self startLog2File];
     [self startCrashExceptionHandler];
-    SwizzleInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:), @selector(SR_motionEnded:withEvent:));
+    static BOOL methodSwizzled = NO;
+    if (!methodSwizzled) {
+        SwizzleInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:), @selector(SR_motionEnded:withEvent:));
+        methodSwizzled = YES;
+    }
     NSLog(@"Shake Report is now listening to your application.");
 }
 
