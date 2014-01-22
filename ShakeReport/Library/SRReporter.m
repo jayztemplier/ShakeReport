@@ -15,6 +15,7 @@
 #import "SRReportViewController.h"
 #import "SRHTTPClient.h"
 #import "SRReportLoadingView.h"
+#import "SRImageEditorViewController.h"
 
 #define kCrashFlag @"kCrashFlag"
 #define SR_LOGS_ENABLED NO
@@ -115,10 +116,15 @@ void uncaughtExceptionHandler(NSException *exception) {
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
         _tempScreenshot = [self screenshot];
-        SRReportViewController *controller = [SRReportViewController composer];
-        controller.delegate = self;
+//        SRReportViewController *controller = [SRReportViewController composer];
+//        controller.delegate = self;
+        SRImageEditorViewController *controller = [SRImageEditorViewController controllerWithImage:_tempScreenshot];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+        if ([navController.navigationBar respondsToSelector:@selector(setTranslucent:)]) {
+            [navController.navigationBar setTranslucent:NO];
+        }
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        [self presentReportComposer:controller inViewController:window.rootViewController];
+        [self presentReportComposer:navController inViewController:window.rootViewController];
     } else {
         [self showMailComposer];
     }
@@ -196,6 +202,20 @@ void uncaughtExceptionHandler(NSException *exception) {
     return logPath;
 }
 #pragma mark Screenshot
+- (void)saveImageToDisk:(UIImage *)image
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"];
+    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+}
+
+- (UIImage *)imageFromDisk
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    UIImage *image = [UIImage imageWithContentsOfFile:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"]];
+    return image;
+}
+
 - (UIImage *)screenshot
 {
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
@@ -207,6 +227,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [window.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    [self saveImageToDisk:image];
     return image;
 }
 
@@ -310,7 +331,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark ShareReport Server API
 - (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
 {
-    UIImage *screenshot = _tempScreenshot ? _tempScreenshot : [self screenshot];
+    UIImage *screenshot = [self imageFromDisk];
+    if (!screenshot) {
+        screenshot = [self screenshot];
+    }
     _tempScreenshot = nil;
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
     NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];

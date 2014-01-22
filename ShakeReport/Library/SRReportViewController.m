@@ -7,6 +7,7 @@
 //
 
 #import "SRReportViewController.h"
+#import "SRReporter.h"
 
 @interface SRReportViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *titleLabel;
@@ -19,16 +20,15 @@
 + (id)composer
 {
     SRReportViewController *controller = [[self alloc] initWithNibName:@"SRReportViewController" bundle:nil];
+    controller.delegate = [SRReporter reporter];
     return controller;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)viewDidLoad
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = _sendButton;
+    self.title = @"Shake Report";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,6 +60,16 @@
 {
     if (_delegate && [_delegate respondsToSelector:@selector(reportControllerDidPressCancel:)]) {
         [_delegate reportControllerDidPressCancel:self];
+    }
+}
+
+#pragma mark - Text Delegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == _titleLabel) {
+        [_messageTextView becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
     }
 }
 @end
