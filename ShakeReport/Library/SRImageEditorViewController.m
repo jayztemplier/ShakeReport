@@ -8,6 +8,7 @@
 
 #import "SRImageEditorViewController.h"
 #import "SRReportViewController.h"
+#import "SRReporter.h"
 
 @interface SRImageEditorViewController ()
 @property (nonatomic, strong) UIColor *currentColor;
@@ -137,7 +138,8 @@
 
 - (void)cancelPressed:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [[SRReporter reporter] reportControllerDidPressCancel:self];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
