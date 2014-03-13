@@ -78,8 +78,7 @@ You basically have 2 options. The first one is to record the entire session:
     
     SRVideoReporter *reporter = [SRVideoReporter reporter];
     NSURL *url = [NSURL URLWithString:@"http://localhost:3000"];
-    [reporter setUsername:@"jayztemplier"];
-    [reporter setPassword:@"mypassword"];
+    [reporter setApplicationToken:@"token_of_the_application"];
     [reporter startListenerConnectedToBackendURL:url];
     [reporter startScreenRecorder];
 
@@ -108,10 +107,9 @@ To send the reports to the server, setup the listener like that:
     NSURL *url = [NSURL URLWithString:@"http://localhost:3000/reports.json"];
     [reporter startListenerConnectedToBackendURL:url];
 
-If you backend is protected with a username and a password, you have to setup the reporter:
+If you backend requires to provide an application token, you have to setup the reporter:
 
-	[reporter setUsername:@"jayztemplier"];
-	[reporter setPassword:@"mypassword"];
+	[reporter setApplicationToken:@"token_of_the_application"];
 
 # Tips
 ### Manually display the report composer
