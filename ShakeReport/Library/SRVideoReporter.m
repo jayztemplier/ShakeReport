@@ -112,11 +112,11 @@
     }
     SRHTTPClient *httpClient = [[SRHTTPClient alloc] initWithBaseURL:self.backendURL];
     
-    if (self.username && self.password) {
-        [httpClient setAuthorizationHeaderWithUsername:[self username] password:[self password]];
+    if (self.applicationToken) {
+        [httpClient setDefaultHeader:@"X-APPLICATION-TOKEN" value:self.applicationToken];
     }
     
-    NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/reports.json" parameters:reportParams constructingBodyWithBlock: ^(id <SRMultipartFormData>formData) {
+    NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"api/reports.json" parameters:reportParams constructingBodyWithBlock: ^(id <SRMultipartFormData>formData) {
         [formData appendPartWithFileData:screenCapture name:@"report[screen_capture]" fileName:@"screen_capture.mp4" mimeType:@"video/mp4"];
     }];
     return request;

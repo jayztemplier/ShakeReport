@@ -669,7 +669,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/ShakeReport\"",
+					"\\\"$(SRCROOT)/ShakeReport\\\"",
+					/Users/Jeremy/Private/ShakeReport/ShakeReport,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
@@ -685,7 +686,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/ShakeReport\"",
+					"\\\"$(SRCROOT)/ShakeReport\\\"",
+					/Users/Jeremy/Private/ShakeReport/ShakeReport,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";

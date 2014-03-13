@@ -23,12 +23,10 @@
     
     // Send data to a Server instead of displaying the mail composer
     SRVideoReporter *reporter = [SRVideoReporter reporter];
-    NSURL *url = [NSURL URLWithString:@"http://localhost:3000"];
-    [reporter setUsername:@"jayztemplier"];
-    [reporter setPassword:@"mypassword"];
+    NSURL *url = [NSURL URLWithString:@"http://shakereport_url.com/"];
+    [reporter setApplicationToken:@"token_of_the_application"];
     [reporter startListenerConnectedToBackendURL:url];
-    [reporter startScreenRecorderWithMaxDurationPerVideo:30];
-
+//    [reporter startScreenRecorderWithMaxDurationPerVideo:30];
     return YES;
 }
 

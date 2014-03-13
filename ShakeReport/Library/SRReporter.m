@@ -24,7 +24,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     [[SRReporter reporter] onCrash:exception];
 }
 
-@interface SRReporter ()
+
+@interface SRReporter () <UIAlertViewDelegate>
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
 @property (nonatomic, strong) UIImage *tempScreenshot;
 @property (nonatomic, strong) SRReportLoadingView *loadingView;
@@ -48,7 +49,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     self = [super init];
     if (self) {
         _lastSessionCrashed = [self crashFlag];
-        [self setCrashFlag:NO];
         _displayReportComposerWhenShakeDevice = YES;
     }
     return self;
@@ -148,16 +148,30 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)startCrashExceptionHandler
 {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
+    if ([self crashFlag]) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Crash detected" message:@"Do you want to send the report?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [alert show];
+    }
 }
 
 - (void)onCrash:(NSException *)exception
 {
     NSMutableString *crashString = [NSMutableString string];
     [crashString appendString:@"-------------- CRASH --------------\n"];
-    [crashString appendFormat:@"CRASH: %@", exception];
-    [crashString appendFormat:@"Stack Trace: %@", [exception callStackSymbols]];
+    [crashString appendFormat:@"CRASH: %@\n", exception];
+    [crashString appendFormat:@"Stack Trace: %@\n", [exception callStackSymbols]];
     [crashString appendString:@"-----------------------------------"];
     [[SRReporter reporter] saveToCrashFile:crashString];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        [self displayReportComposer];
+    } else {
+        [self setCrashFlag:NO];
+    }
 }
 
 - (void)setCrashFlag:(BOOL)flag
@@ -366,10 +380,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     NSMutableDictionary *reportParams = [[self paramsForHTTPReportWithTitle:title andMessage:message] mutableCopy];
     SRHTTPClient *httpClient = [[SRHTTPClient alloc] initWithBaseURL:_backendURL];
-    if (_username && _password) {
-        [httpClient setAuthorizationHeaderWithUsername:[self username] password:[self password]];
+    if (_applicationToken) {
+        [httpClient setDefaultHeader:@"X-APPLICATION-TOKEN" value:_applicationToken];
     }
-    NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:@"/reports.json" parameters:reportParams];
+    NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:@"api/reports.json" parameters:reportParams];
     return request;
 }
 
@@ -409,6 +423,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
     _composerDisplayed = NO;
+    [self setCrashFlag:NO];
 }
 
 #pragma mark - URL Connection Delegate
