@@ -11,6 +11,7 @@
 #import "CaptureRecord.h"
 #import "SRUtils.h"
 #import "SRHTTPClient.h"
+#import "UIWindow+SRReporter.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
 @implementation SRVideoReporter

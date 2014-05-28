@@ -138,15 +138,14 @@
 
 - (void)cancelPressed:(id)sender
 {
-    [[SRReporter reporter] reportControllerDidPressCancel:self];
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    [[SRReporter reporter] viewControllerDidPressCancel:self];
 }
 
 
 #pragma mark - Line Size
 - (void)updateLineSizeLabel
 {
-    _lineSizeLabel.text = [NSString stringWithFormat:@"%d", _lineSize];
+    _lineSizeLabel.text = [NSString stringWithFormat:@"%ld", (long)_lineSize];
 }
 
 - (IBAction)sizeUpPressed:(id)sender

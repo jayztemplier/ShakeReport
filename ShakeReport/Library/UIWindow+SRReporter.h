@@ -9,4 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UIWindow (SRReporter)
+
+- (void)SR_motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event;
+- (void)SR_sendEvent:(UIEvent *)event;
+
 @end

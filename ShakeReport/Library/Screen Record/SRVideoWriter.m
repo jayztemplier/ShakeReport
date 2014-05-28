@@ -307,7 +307,7 @@
 	// oldComponents is the array INSIDE the original color
 	// changing these changes the original, so we copy it
 	CGFloat *oldComponents = (CGFloat *)CGColorGetComponents([color CGColor]);
-	int numComponents = CGColorGetNumberOfComponents([color CGColor]);
+	int numComponents = (int)CGColorGetNumberOfComponents([color CGColor]);
 	CGFloat components[4];
   
 	switch (numComponents) {
@@ -429,7 +429,7 @@
   }
     
   if ([NSDate timeIntervalSinceReferenceDate] - _fpsTimeStart > 1.0) {
-    if (_fps > 0) CRDebug(@"FPS: %d", _fps);
+    if (_fps > 0) CRDebug(@"FPS: %lu", (unsigned long)_fps);
     _fpsTimeStart = [NSDate timeIntervalSinceReferenceDate];
     _fps = 0;
   }
