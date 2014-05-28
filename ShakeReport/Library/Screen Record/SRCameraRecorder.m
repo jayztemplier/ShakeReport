@@ -32,21 +32,31 @@
   //AVCaptureDevice *videoCaptureDevice = [devices gh_firstObject]; // For back camera
   AVCaptureDevice *videoCaptureDevice = [devices lastObject]; // For front camera
   
-  if (!videoCaptureDevice) return NO;
+  if (!videoCaptureDevice) {
+    return NO;
+  }
   
   [videoCaptureDevice lockForConfiguration:nil];
-  if ([videoCaptureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus])
+  if ([videoCaptureDevice isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
     videoCaptureDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+  }
   
-  if ([videoCaptureDevice isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure])
+  if ([videoCaptureDevice isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure]) {
     videoCaptureDevice.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
+  }
   
-  if ([videoCaptureDevice isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance])
+  if ([videoCaptureDevice isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance]) {
     videoCaptureDevice.whiteBalanceMode = AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance;
+  }
+  [videoCaptureDevice setActiveVideoMaxFrameDuration:CMTimeMake(1, 30)];
+  [videoCaptureDevice setActiveVideoMinFrameDuration:CMTimeMake(1, 15)];
+  
   [videoCaptureDevice unlockForConfiguration];
   
   AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoCaptureDevice error:error];
-  if (!videoInput) return NO;
+  if (!videoInput) {
+    return NO;
+  }
   
   [_captureSession setSessionPreset:AVCaptureSessionPresetLow]; // AVCaptureSessionPresetMedium
   [_captureSession addInput:videoInput];
@@ -68,13 +78,6 @@
                                 [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA], kCVPixelBufferPixelFormatTypeKey,
                                 nil];
   [_videoOutput setSampleBufferDelegate:self queue:_queue];
-  AVCaptureConnection *videoOutputConnection = [_videoOutput connectionWithMediaType:AVMediaTypeVideo];  
-  if (videoOutputConnection.isVideoMinFrameDurationSupported) {
-    videoOutputConnection.videoMinFrameDuration = CMTimeMake(1, 15);
-  }
-  if (videoOutputConnection.isVideoMaxFrameDurationSupported) {
-    videoOutputConnection.videoMaxFrameDuration = CMTimeMake(1, 30);
-  }
   
   if (![_captureSession canAddOutput:_videoOutput]) {
     CRSetError(error, 0, @"Can't add video output: %@", _videoOutput);

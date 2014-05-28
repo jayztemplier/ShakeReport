@@ -16,6 +16,7 @@
 #import "SRHTTPClient.h"
 #import "SRReportLoadingView.h"
 #import "SRImageEditorViewController.h"
+#import "UIWindow+SRReporter.h"
 
 #define kCrashFlag @"kCrashFlag"
 #define SR_LOGS_ENABLED NO
@@ -144,6 +145,13 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+- (void)viewControllerDidPressCancel:(UIViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    _composerDisplayed = NO;
+    [self setCrashFlag:NO];
+}
+
 #pragma mark - Crash Report
 - (void)startCrashExceptionHandler
 {
@@ -252,8 +260,16 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark View Hierarchy
 - (NSString *)viewHierarchy
 {
-    NSString *dump = [NSString stringWithFormat:@"%@", [[[UIApplication sharedApplication] keyWindow] performSelector:@selector(recursiveDescription)]];
+#ifdef DEBUG
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    SEL selector = NSSelectorFromString(@"recursiveDescription");
+    IMP imp = [keyWindow methodForSelector:selector];
+    NSString *(*func)(id, SEL) = (void *)imp;
+    NSString *dump = func(keyWindow, selector);
     return dump;
+#else
+    return @"";
+#endif
 }
 
 #pragma mark System Information
@@ -355,7 +371,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     _tempScreenshot = nil;
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
-    NSString *base64ImageString = [imageData base64EncodingWithLineLength:imageData.length];
+    NSString *base64ImageString = [imageData base64EncodingWithLineLength:(int)imageData.length];
     NSString *logs = [self logs];
     NSString *viewDump = [self viewHierarchy];
     NSString *crashReport = [self crashReport];
@@ -370,6 +386,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     reportParams[@"report[device_model]"] = [self systemInformation][@"device_model"];
     reportParams[@"report[os_version]"] = [self systemInformation][@"os_version"];
     reportParams[@"report[message]"] = (message && message.length ? message : @"No message");
+    if (_customInformationBlock) {
+        NSString *customInfo = [self customInformation];
+        if (customInfo && customInfo.length) {
+            reportParams[@"report[custom_info]"] = customInfo;
+        }
+    }
     if (crashReport) {
         reportParams[@"report[crash_logs]"] = crashReport;
     }
@@ -421,9 +443,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)reportControllerDidPressCancel:(SRReportViewController *)controller
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    _composerDisplayed = NO;
-    [self setCrashFlag:NO];
+    [self viewControllerDidPressCancel:controller];
 }
 
 #pragma mark - URL Connection Delegate
@@ -435,7 +455,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [alert show];
     if(SR_LOGS_ENABLED) {
         NSLog(@"[Shake Report] Report status:");
-        NSLog(@"[Shake Report] HTTP Status Code: %d", response.statusCode);
+        NSLog(@"[Shake Report] HTTP Status Code: %ld", (long)response.statusCode);
     }
 }
 

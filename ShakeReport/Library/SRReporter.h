@@ -38,6 +38,7 @@ typedef NSString* (^SRCustomInformationBlock)();
  Call this method if you want to link a button to the action of creating a new report.
  **/
 - (void)displayReportComposer;
+- (void)viewControllerDidPressCancel:(UIViewController *)viewController;
 - (BOOL)canSendNewReport;
 - (void)saveToCrashFile:(NSString *)crashContent;
 - (void)onCrash:(NSException *)exception;
@@ -45,4 +46,5 @@ typedef NSString* (^SRCustomInformationBlock)();
 - (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer;
 - (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message;
+
 @end

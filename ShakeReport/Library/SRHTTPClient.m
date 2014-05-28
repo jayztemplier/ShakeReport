@@ -406,8 +406,6 @@ static NSString * const kSRMultipartFormBoundary = @"Boundary+0xAbCdEfGbOuNdArY"
 
 static NSString * const kSRMultipartFormCRLF = @"\r\n";
 
-static NSInteger const kSRStreamToStreamBufferSize = 1024 * 1024; //1 meg default
-
 static inline NSString * SRMultipartFormInitialBoundary() {
     return [NSString stringWithFormat:@"--%@%@", kSRMultipartFormBoundary, kSRMultipartFormCRLF];
 }
