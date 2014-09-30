@@ -16,7 +16,7 @@
 
 @interface SRReportViewController : UIViewController <UITextFieldDelegate>
 + (id)composer;
-@property (nonatomic, assign) id<SRReportViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<SRReportViewControllerDelegate> delegate;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, readonly) NSString *message;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;

@@ -51,6 +51,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (self) {
         _lastSessionCrashed = [self crashFlag];
         _displayReportComposerWhenShakeDevice = YES;
+        _recordsCrashes = YES;
     }
     return self;
 }
@@ -65,7 +66,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)startListener
 {
     [self startLog2File];
-    [self startCrashExceptionHandler];
+    if (_recordsCrashes) {
+        [self startCrashExceptionHandler];
+    }
     static BOOL methodSwizzled = NO;
     if (!methodSwizzled) {
         SwizzleInstanceMethod([UIWindow class], @selector(motionEnded:withEvent:), @selector(SR_motionEnded:withEvent:));
