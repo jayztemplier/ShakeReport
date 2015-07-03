@@ -23,6 +23,7 @@ typedef NSString* (^SRCustomInformationBlock)();
 @property (nonatomic, copy) NSString *applicationToken;
 @property (nonatomic, assign) BOOL lastSessionCrashed;
 @property (nonatomic, assign) BOOL displayReportComposerWhenShakeDevice;
+@property (nonatomic, assign) BOOL recordsCrashes;
 
 + (instancetype)reporter;
 
