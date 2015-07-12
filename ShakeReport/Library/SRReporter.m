@@ -17,6 +17,8 @@
 #import "SRReportLoadingView.h"
 #import "SRImageEditorViewController.h"
 #import "UIWindow+SRReporter.h"
+#import "SRUtils.h"
+#import <MWWindow/MWWindow.h>
 
 #define kCrashFlag @"kCrashFlag"
 #define SR_LOGS_ENABLED NO
@@ -28,9 +30,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 @interface SRReporter () <UIAlertViewDelegate>
 @property (nonatomic,  strong) MFMailComposeViewController *mailController;
-@property (nonatomic, strong) UIImage *tempScreenshot;
 @property (nonatomic, strong) SRReportLoadingView *loadingView;
 @property (nonatomic, assign) BOOL composerDisplayed;
+@property (nonatomic, strong) MWWindow *composerWindow;
 @end
 
 @implementation SRReporter
@@ -81,33 +83,22 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
 }
 
+- (SRReport *)report {
+    if (!_report) {
+        _report = [SRReport new];
+    }
+    return _report;
+}
+
 
 #pragma mark Logs
 - (void)startLog2File
 {
     if (!isatty(STDERR_FILENO)) {
-        NSString *logPath = [self logFilePath];
+        NSString *logPath = [self.report logFilePath];
         [[NSFileManager defaultManager] removeItemAtPath:logPath error:nil];
         freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
     }
-}
-
-- (NSString *)logFilePath
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
-    return logPath;
-}
-
-- (NSString *)logs
-{
-    NSString *logPath = [self logFilePath];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:logPath]) {
-        NSString *logs = [NSString stringWithContentsOfFile:logPath encoding:NSUTF8StringEncoding error:nil];
-        return logs;
-    }
-    return @"";
 }
 
 #pragma mark Report
@@ -123,16 +114,25 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     if(SR_LOGS_ENABLED) NSLog(@"Send New Report");
     if (_backendURL) {
-        _tempScreenshot = [self screenshot];
-//        SRReportViewController *controller = [SRReportViewController composer];
-//        controller.delegate = self;
-        SRImageEditorViewController *controller = [SRImageEditorViewController controllerWithImage:_tempScreenshot];
+        SRImageEditorViewController *controller = [SRImageEditorViewController controllerWithImage:self.report.screenshot];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         if ([navController.navigationBar respondsToSelector:@selector(setTranslucent:)]) {
-            [navController.navigationBar setTranslucent:NO];
+            [navController.navigationBar setTranslucent:YES];
         }
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        [self presentReportComposer:navController inViewController:window.rootViewController];
+
+        if (_composerWindow) {
+            [_composerWindow removeFromSuperview];
+        }
+        _composerWindow = [[MWWindow alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+        _composerWindow.clipsToBounds = YES;
+        [_composerWindow setPanGestureEnabled:NO];
+        [_composerWindow setTapToCloseEnabled:NO];
+        _composerWindow.windowLevel = UIWindowLevelStatusBar;
+        _composerWindow.rootViewController = navController;
+        [_composerWindow makeKeyAndVisible];
+        [_composerWindow presentWindowAnimated:YES completion:^{
+            
+        }];
     } else {
         [self showMailComposer];
     }
@@ -148,18 +148,27 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 }
 
+- (void)dismissComposer {
+    if (_composerWindow) {
+        __weak __typeof__(self) weakSelf = self;
+        [_composerWindow dismissWindowAnimated:YES completion:^{
+//            UIWindow *window = [[UIApplication sharedApplication].delegate window];
+//            [window makeKeyWindow];
+            weakSelf.composerDisplayed = NO;
+        }];
+    }
+}
+
 - (void)viewControllerDidPressCancel:(UIViewController *)controller
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    _composerDisplayed = NO;
     [self setCrashFlag:NO];
+    NSLog(@"window count count: %lu", [[UIApplication sharedApplication].windows count]);
 }
 
 #pragma mark - Crash Report
 - (void)startCrashExceptionHandler
 {
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    
     if ([self crashFlag]) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Crash detected" message:@"Do you want to send the report?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         [alert show];
@@ -170,7 +179,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     NSMutableString *crashString = [NSMutableString string];
     [crashString appendString:@"-------------- CRASH --------------\n"];
-    [crashString appendFormat:@"CRASH: %@\n", exception];
+    [crashString appendFormat:@"Exception: %@\n", exception];
+    [crashString appendFormat:@"Name: %@\n", exception.name];
+    [crashString appendFormat:@"Reason: %@\n", exception.reason];
     [crashString appendFormat:@"Stack Trace: %@\n", [exception callStackSymbols]];
     [crashString appendString:@"-----------------------------------"];
     [[SRReporter reporter] saveToCrashFile:crashString];
@@ -191,7 +202,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [userDefaults setBool:flag forKey:kCrashFlag];
     [userDefaults synchronize];
     if (!flag) {
-        NSString *filePath = [self crashFilePath];
+        NSString *filePath = [self.report crashFilePath];
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
     }
 }
@@ -202,120 +213,30 @@ void uncaughtExceptionHandler(NSException *exception) {
     return [userDefaults boolForKey:kCrashFlag];
 }
 
-- (NSString *)crashReport
-{
-    NSString *crashFilePath = [self crashFilePath];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:crashFilePath]) {
-        NSString *crash = [NSString stringWithContentsOfFile:crashFilePath encoding:NSUTF8StringEncoding error:nil];
-        [self setCrashFlag:NO];
-        return crash;
-    }
-    return nil;
-}
-
-- (void)saveToCrashFile:(NSString *)crashContent
-{
-    if (crashContent) {
-        NSString *filePath = [self crashFilePath];
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-        [crashContent writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        [self setCrashFlag:YES];
-    }
-}
-
-- (NSString *)crashFilePath
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"crash.log"];
-    return logPath;
-}
-#pragma mark Screenshot
-- (void)saveImageToDisk:(UIImage *)image
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"];
-    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
-}
-
-- (UIImage *)imageFromDisk
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    UIImage *image = [UIImage imageWithContentsOfFile:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"screenshot.png"]];
-    return image;
-}
-
-- (UIImage *)screenshot
-{
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
-        UIGraphicsBeginImageContextWithOptions(window.bounds.size, NO, [UIScreen mainScreen].scale);
-    else
-        UIGraphicsBeginImageContext(window.bounds.size);
-
-    [window.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    [self saveImageToDisk:image];
-    return image;
-}
-
-#pragma mark View Hierarchy
-- (NSString *)viewHierarchy
-{
-#ifdef DEBUG
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    SEL selector = NSSelectorFromString(@"recursiveDescription");
-    IMP imp = [keyWindow methodForSelector:selector];
-    NSString *(*func)(id, SEL) = (void *)imp;
-    NSString *dump = func(keyWindow, selector);
-    return dump;
-#else
-    return @"";
-#endif
-}
-
-#pragma mark System Information
-- (NSDictionary *)systemInformation
-{
-    return @{
-             @"os_version": [[UIDevice currentDevice] systemVersion],
-             @"device_model" : [[UIDevice currentDevice] model]
-             };
-}
 
 #pragma mark Custom Information
 - (void)setCustomInformationBlock:(NSString* (^)())block
 {
-    _customInformationBlock = block;
-}
-
-
-- (NSString *)customInformation
-{
-    if (_customInformationBlock) {
-        return _customInformationBlock();
-    }
-    return nil;
+    self.report.customInformationBlock = block;
 }
 
 #pragma mark Mail Composer
 - (void)addAttachmentsToMailComposer:(MFMailComposeViewController *)mailComposer
 {
     // Fetch Screenshot data
-    UIImage *screenshot = [self screenshot];
+    UIImage *screenshot = [self.report screenshot];
     NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
     
     // Logs
-    NSString *logs = [self logs];
+    NSString *logs = [self.report logs];
     NSData* logsData = [logs dataUsingEncoding:NSUTF8StringEncoding];
     
     // View Hierarchy (Root=Window)
-    NSString *viewDump = [self viewHierarchy];
+    NSString *viewDump = [self.report dumpedView];
     NSData* viewData = [viewDump dataUsingEncoding:NSUTF8StringEncoding];
     
     // Crash Report if we registered a crash
-    NSString *crashReport = [self crashReport];
+    NSString *crashReport = [self.report crashReport];
     if (!crashReport) {
         crashReport = @"No Crash";
     }
@@ -326,11 +247,11 @@ void uncaughtExceptionHandler(NSException *exception) {
     [mailComposer addAttachmentData:logsData mimeType:@"text/plain" fileName:@"console.log"];
     [mailComposer addAttachmentData:viewData mimeType:@"text/plain" fileName:@"viewDump.log"];
     [mailComposer addAttachmentData:crashData mimeType:@"text/plain" fileName:@"crash.log"];
-    NSString *message = [NSString stringWithFormat:@"Hey! I noticed something wrong with the app, here is some information.\nDevice model: %@\nOS version:%@", [self systemInformation][@"device_model"], [self systemInformation][@"os_version"]];
+    NSString *message = [NSString stringWithFormat:@"Hey! I noticed something wrong with the app, here is some information.\nDevice model: %@\nOS version:%@", [self.report systemInformation][@"device_model"], [self.report systemInformation][@"os_version"]];
     [mailComposer setMessageBody:message isHTML:NO];
     
     //Custom Information
-    NSString *additionalInformation = [self customInformation];
+    NSString *additionalInformation = [self.report customInformation];
     if (additionalInformation) {
         NSData* additionalInformationData = [additionalInformation dataUsingEncoding:NSUTF8StringEncoding];
         [mailComposer addAttachmentData:additionalInformationData mimeType:@"text/plain" fileName:@"additionalInformation.log"];
@@ -366,31 +287,20 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 #pragma mark ShareReport Server API
-- (NSDictionary *)paramsForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
+- (NSDictionary *)reportHTTPParams
 {
-    UIImage *screenshot = [self imageFromDisk];
-    if (!screenshot) {
-        screenshot = [self screenshot];
-    }
-    _tempScreenshot = nil;
-    NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
-    NSString *base64ImageString = [imageData base64EncodingWithLineLength:(int)imageData.length];
-    NSString *logs = [self logs];
-    NSString *viewDump = [self viewHierarchy];
-    NSString *crashReport = [self crashReport];
-    
-    // let's construct the URL
+    NSString *logs = [self.report logs];
+    NSString *viewDump = [self.report dumpedView];
+    NSString *crashReport = [self.report crashReport];
     NSMutableDictionary *reportParams = [NSMutableDictionary dictionary];
-    reportParams[@"report[screenshot]"] = base64ImageString;
     reportParams[@"report[logs]"] = logs;
     reportParams[@"report[dumped_view]"] = viewDump;
-    reportParams[@"report[title]"] = (title && title.length ? title : @"No title");
-    reportParams[@"report[message]"] = (message && message.length ? message : @"No message");
-    reportParams[@"report[device_model]"] = [self systemInformation][@"device_model"];
-    reportParams[@"report[os_version]"] = [self systemInformation][@"os_version"];
-    reportParams[@"report[message]"] = (message && message.length ? message : @"No message");
-    if (_customInformationBlock) {
-        NSString *customInfo = [self customInformation];
+    reportParams[@"report[title]"] = self.report.title;
+    reportParams[@"report[message]"] = self.report.message;
+    reportParams[@"report[device_model]"] = [self.report systemInformation][@"device_model"];
+    reportParams[@"report[os_version]"] = [self.report systemInformation][@"os_version"];
+    if (self.report.customInformationBlock) {
+        NSString *customInfo = self.report.customInformation;
         if (customInfo && customInfo.length) {
             reportParams[@"report[custom_info]"] = customInfo;
         }
@@ -401,23 +311,38 @@ void uncaughtExceptionHandler(NSException *exception) {
     return reportParams;
 }
 
-- (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
+- (NSMutableURLRequest *)reportHTTPRequest
 {
-    NSMutableDictionary *reportParams = [[self paramsForHTTPReportWithTitle:title andMessage:message] mutableCopy];
+    NSMutableDictionary *reportParams = [[self reportHTTPParams] mutableCopy];
     SRHTTPClient *httpClient = [[SRHTTPClient alloc] initWithBaseURL:_backendURL];
     if (_applicationToken) {
         [httpClient setDefaultHeader:@"X-APPLICATION-TOKEN" value:_applicationToken];
     }
-    NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:@"api/reports.json" parameters:reportParams];
+    NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"api/reports.json" parameters:reportParams constructingBodyWithBlock: ^(id <SRMultipartFormData>formData) {
+        UIImage *screenshot = [self.report screenshot];
+        NSData *imageData = UIImageJPEGRepresentation(screenshot ,1.0);
+        if (imageData) {
+            [formData appendPartWithFileData:imageData name:@"report[screenshot_file]" fileName:@"screenshot.jpg" mimeType:@"image/jpeg"];
+        }
+        
+        NSData *screenCapture;
+        NSString *videoFile = self.report.screenCaptureVideoPath;
+        if (videoFile && [SRUtils sr_exist:videoFile]) {
+            screenCapture = [NSData dataWithContentsOfFile:videoFile];
+            [formData appendPartWithFileData:screenCapture name:@"report[screen_capture]" fileName:@"screen_capture.mp4" mimeType:@"video/mp4"];
+        }
+        
+    }];
+
     return request;
 }
 
-- (void)sendToServerWithTitle:(NSString *)title andMessage:(NSString *)message
+- (void)sendReport
 {
     if (!_backendURL) {
         return;
     }
-    NSMutableURLRequest *request = [self requestForHTTPReportWithTitle:title andMessage:message];
+    NSMutableURLRequest *request = [self reportHTTPRequest];
     NSURLConnection *urlConnection = [NSURLConnection connectionWithRequest:request delegate:self];
     [urlConnection start];
 }
@@ -437,9 +362,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 #pragma mark - SRReportViewController delegate
 - (void)reportControllerDidPressSend:(SRReportViewController *)controller
 {
-    NSString *title = controller.title;
-    NSString *message = controller.message;
-    [self sendToServerWithTitle:title andMessage:message];
+    [self sendReport];
     [controller dismissViewControllerAnimated:YES completion:nil];
     _composerDisplayed = NO;
 }
@@ -453,7 +376,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {
     [_loadingView removeFromSuperview];
-    
+    _report = nil;
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Report sent" message:@"Thank you for your help." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     if(SR_LOGS_ENABLED) {
@@ -465,7 +388,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     [_loadingView removeFromSuperview];
-    
     if(SR_LOGS_ENABLED) {
         NSLog(@"[Shake Report] Report status:");
         NSLog(@"[Shake Report] Error: %@", error);

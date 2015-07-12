@@ -94,6 +94,6 @@
 - (BOOL)discardVideo:(NSError **)error;
 
 - (NSString *)screenCaptureVideoPath;
-- (void)mergeVideos;
+- (void)mergeVideosTo:(NSString *)filePath;
 - (void)mergeVideosAtPath:(NSString *)pathAsset1 andPath:(NSString *)pathAsset2 inVideoAtPath:(NSString *)mergedVideoPath;
 @end

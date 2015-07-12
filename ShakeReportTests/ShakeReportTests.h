@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Jeremy Templier. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
-
-@interface ShakeReportTests : SenTestCase
-@end
+//#import <SenTestingKit/SenTestingKit.h>
+//
+//@interface ShakeReportTests : SenTestCase
+//@end

@@ -86,7 +86,7 @@
                 
             }];
         }
-        [[SRRecorder sharedRecorder] mergeVideos];
+        [[SRRecorder sharedRecorder] mergeVideosTo:self.report.screenCaptureVideoPath];
     }
     [super displayReportComposer];
 }
@@ -100,28 +100,6 @@
 }
 
 #pragma mark - URL Connection 
-- (NSMutableURLRequest *)requestForHTTPReportWithTitle:(NSString *)title andMessage:(NSString *)message
-{
-    if (!_screenCaptureEnabled) {
-        return [super requestForHTTPReportWithTitle:title andMessage:message];
-    }
-    NSMutableDictionary *reportParams = [[self paramsForHTTPReportWithTitle:title andMessage:message] mutableCopy];
-    NSData *screenCapture;
-    NSString *videoFile = [[SRRecorder sharedRecorder] screenCaptureVideoPath];
-    if (videoFile && [SRUtils sr_exist:videoFile]) {
-        screenCapture = [NSData dataWithContentsOfFile:videoFile];
-    }
-    SRHTTPClient *httpClient = [[SRHTTPClient alloc] initWithBaseURL:self.backendURL];
-    
-    if (self.applicationToken) {
-        [httpClient setDefaultHeader:@"X-APPLICATION-TOKEN" value:self.applicationToken];
-    }
-    
-    NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"api/reports.json" parameters:reportParams constructingBodyWithBlock: ^(id <SRMultipartFormData>formData) {
-        [formData appendPartWithFileData:screenCapture name:@"report[screen_capture]" fileName:@"screen_capture.mp4" mimeType:@"video/mp4"];
-    }];
-    return request;
-}
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {
@@ -138,7 +116,7 @@
     [super addAttachmentsToMailComposer:mailComposer];
     
     if (_screenCaptureEnabled) {
-        NSString *videoFile = [[SRRecorder sharedRecorder] screenCaptureVideoPath];
+        NSString *videoFile = self.report.screenCaptureVideoPath;
         if (videoFile && [SRUtils sr_exist:videoFile]) {
             NSData *screenCapture = [NSData dataWithContentsOfFile:videoFile];
             [mailComposer addAttachmentData:screenCapture mimeType:@"video/MP4" fileName:@"screen_capture.mp4"];

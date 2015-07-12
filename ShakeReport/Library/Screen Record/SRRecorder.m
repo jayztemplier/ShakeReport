@@ -124,21 +124,13 @@
   return [_videoWriter discard:error];
 }
 
-- (NSString * )screenCaptureVideoPath
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:@"screen_capture.mov"];
-    return myPathDocs;
-}
-
-- (void)mergeVideos
+- (void)mergeVideosTo:(NSString *)filePath
 {
     NSString *pathChunk2 = [SRUtils sr_temporaryFile:CRFileChunk2 deleteIfExists:NO error:nil];
     BOOL oneIsFirst = (![SRUtils sr_exist:pathChunk2] || [[SRRecorder sharedRecorder].lastVideoName isEqualToString:CRFileChunk2]);
     NSString *pathAsset1 = [SRUtils sr_temporaryFile:(oneIsFirst ? CRFileChunk1 : CRFileChunk2) deleteIfExists:NO error:nil];
     NSString *pathAsset2 = [SRUtils sr_temporaryFile:(oneIsFirst ? CRFileChunk2 : CRFileChunk1) deleteIfExists:NO error:nil];
-    [self mergeVideosAtPath:pathAsset1 andPath:pathAsset2 inVideoAtPath:[self screenCaptureVideoPath]];
+    [self mergeVideosAtPath:pathAsset1 andPath:pathAsset2 inVideoAtPath:filePath];
 }
 
 - (void) mergeVideosAtPath:(NSString *)pathAsset1 andPath:(NSString *)pathAsset2 inVideoAtPath:(NSString *)mergedVideoPath

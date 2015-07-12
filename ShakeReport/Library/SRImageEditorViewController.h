@@ -22,4 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *screenshotImageView;
 @property (strong, nonatomic) UIImage *originalImage;
+@property (weak, nonatomic) IBOutlet UIToolbar *topToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *colorsToolbar;
 @end

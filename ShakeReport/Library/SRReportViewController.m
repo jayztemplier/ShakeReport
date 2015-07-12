@@ -8,6 +8,7 @@
 
 #import "SRReportViewController.h"
 #import "SRReporter.h"
+#import "UIImage+ImageEffects.h"
 
 @interface SRReportViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *titleLabel;
@@ -28,7 +29,14 @@
 {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = _sendButton;
+    self.navigationItem.leftBarButtonItem = _cancelButton;
     self.title = @"Shake Report";
+    
+    UIImage *backgroundImage = [SRReporter reporter].report.screenshot;
+    backgroundImage = [backgroundImage applyBlurWithRadius:1.f tintColor:[UIColor colorWithWhite:0.600 alpha:0.480] saturationDeltaFactor:1.0 maskImage:nil];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    backgroundImageView.frame = self.view.bounds;
+    [self.view insertSubview:backgroundImageView atIndex:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -37,20 +45,11 @@
     [self.titleLabel becomeFirstResponder];
 }
 
-#pragma mark - Accessors
-- (NSString *)title
-{
-    return _titleLabel.text;
-}
-
-- (NSString *)message
-{
-    return _messageTextView.text;
-}
-
 #pragma mark - Actions
 - (IBAction)sendPressed:(id)sender
 {
+    [SRReporter reporter].report.title = _titleLabel.text;
+    [SRReporter reporter].report.message = _messageTextView.text;
     if (_delegate && [_delegate respondsToSelector:@selector(reportControllerDidPressSend:)]) {
         [_delegate reportControllerDidPressSend:self];
     }
@@ -58,9 +57,10 @@
 
 - (IBAction)cancelPressed:(id)sender
 {
-    if (_delegate && [_delegate respondsToSelector:@selector(reportControllerDidPressCancel:)]) {
-        [_delegate reportControllerDidPressCancel:self];
-    }
+    [self.navigationController popToRootViewControllerAnimated:YES];
+//    if (_delegate && [_delegate respondsToSelector:@selector(reportControllerDidPressCancel:)]) {
+//        [_delegate reportControllerDidPressCancel:self];
+//    }
 }
 
 #pragma mark - Text Delegate

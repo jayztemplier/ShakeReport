@@ -7,12 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21523850407466DD6E3E98BA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15BCCE0E2B9B9336068A8F17 /* libPods.a */; };
 		35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873A175B0F1100E8F4EA /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F48738175B0F1100E8F4EA /* NSData+Base64.m */; };
 		35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
 		35F4873F175B10C500E8F4EA /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 35F4873D175B10C500E8F4EA /* NSString+HTML.m */; };
+		3F09958C1B474768009C9605 /* BSKAnnotationArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0995851B474768009C9605 /* BSKAnnotationArrowView.m */; };
+		3F09958D1B474768009C9605 /* BSKAnnotationBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0995871B474768009C9605 /* BSKAnnotationBlurView.m */; };
+		3F09958E1B474768009C9605 /* BSKAnnotationBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0995891B474768009C9605 /* BSKAnnotationBoxView.m */; };
+		3F09958F1B474768009C9605 /* BSKAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F09958B1B474768009C9605 /* BSKAnnotationView.m */; };
+		3F0995921B474786009C9605 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0995911B474786009C9605 /* UIImage+ImageEffects.m */; };
+		3F0995951B47479B009C9605 /* BSKCheckerboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0995941B47479B009C9605 /* BSKCheckerboardView.m */; };
+		3F0995971B474813009C9605 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F0995961B474813009C9605 /* Accelerate.framework */; };
 		3F20C06C188F46AA0085BD25 /* SRImageEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F20C06A188F46AA0085BD25 /* SRImageEditorViewController.m */; };
 		3F20C06D188F46AA0085BD25 /* SRImageEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F20C06B188F46AA0085BD25 /* SRImageEditorViewController.xib */; };
+		3F24FB6D1B4DAA1E0014446F /* ShakeReportUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F24FB6C1B4DAA1E0014446F /* ShakeReportUITests.m */; };
 		3F2B548B17573D8200DF3193 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548A17573D8200DF3193 /* QuartzCore.framework */; };
 		3F2B548D1757434100DF3193 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2B548C1757434100DF3193 /* MessageUI.framework */; };
 		3F37881718089CF400F60303 /* SRHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19D7917EE4BBA004F64B9 /* SRHTTPClient.m */; };
@@ -58,6 +67,18 @@
 		3F597143175721DC00971B9B /* SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F597141175721DC00971B9B /* SRReporter.m */; };
 		3F59714B175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
 		3F59714C175725F000971B9B /* UIWindow+SRReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F59714A175725F000971B9B /* UIWindow+SRReporter.m */; };
+		3F67480B1B48648300CB1E49 /* SRReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F67480A1B48648300CB1E49 /* SRReport.m */; };
+		3F67480E1B4872AF00CB1E49 /* SRReport+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F67480D1B4872AF00CB1E49 /* SRReport+Network.m */; };
+		3F67482F1B4A1BAB00CB1E49 /* back21.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6748251B4A1BAB00CB1E49 /* back21.png */; };
+		3F6748301B4A1BAB00CB1E49 /* back21@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6748261B4A1BAB00CB1E49 /* back21@2x.png */; };
+		3F6748311B4A1BAB00CB1E49 /* cancel30.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6748271B4A1BAB00CB1E49 /* cancel30.png */; };
+		3F6748321B4A1BAB00CB1E49 /* cancel30@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6748281B4A1BAB00CB1E49 /* cancel30@2x.png */; };
+		3F6748331B4A1BAB00CB1E49 /* next21.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F6748291B4A1BAB00CB1E49 /* next21.png */; };
+		3F6748341B4A1BAB00CB1E49 /* next21@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F67482A1B4A1BAB00CB1E49 /* next21@2x.png */; };
+		3F6748351B4A1BAB00CB1E49 /* painter11.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F67482B1B4A1BAB00CB1E49 /* painter11.png */; };
+		3F6748361B4A1BAB00CB1E49 /* painter11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F67482C1B4A1BAB00CB1E49 /* painter11@2x.png */; };
+		3F6748371B4A1BAB00CB1E49 /* send4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F67482D1B4A1BAB00CB1E49 /* send4.png */; };
+		3F6748381B4A1BAB00CB1E49 /* send4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F67482E1B4A1BAB00CB1E49 /* send4@2x.png */; };
 		3F7BEEC217C8903B004020BD /* SRReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7BEEC017C8903B004020BD /* SRReportViewController.m */; };
 		3F7BEEC317C8903B004020BD /* SRReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7BEEC117C8903B004020BD /* SRReportViewController.xib */; };
 		3FE19CD417ED2245004F64B9 /* SRCameraRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19CBA17ED2245004F64B9 /* SRCameraRecorder.m */; };
@@ -84,6 +105,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3F24FB6F1B4DAA1E0014446F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F5970F91757217000971B9B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F5971001757217000971B9B;
+			remoteInfo = ShakeReport;
+		};
 		3F59712C1757217000971B9B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3F5970F91757217000971B9B /* Project object */;
@@ -94,13 +122,31 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15BCCE0E2B9B9336068A8F17 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		35F48737175B0F1100E8F4EA /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Library/NSData+Base64.h"; sourceTree = "<group>"; };
 		35F48738175B0F1100E8F4EA /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Library/NSData+Base64.m"; sourceTree = "<group>"; };
 		35F4873C175B10C500E8F4EA /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+HTML.h"; path = "Library/NSString+HTML.h"; sourceTree = "<group>"; };
 		35F4873D175B10C500E8F4EA /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+HTML.m"; path = "Library/NSString+HTML.m"; sourceTree = "<group>"; };
+		38D6D09EC4D0F30102425036 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3F0995841B474768009C9605 /* BSKAnnotationArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKAnnotationArrowView.h; sourceTree = "<group>"; };
+		3F0995851B474768009C9605 /* BSKAnnotationArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKAnnotationArrowView.m; sourceTree = "<group>"; };
+		3F0995861B474768009C9605 /* BSKAnnotationBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKAnnotationBlurView.h; sourceTree = "<group>"; };
+		3F0995871B474768009C9605 /* BSKAnnotationBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKAnnotationBlurView.m; sourceTree = "<group>"; };
+		3F0995881B474768009C9605 /* BSKAnnotationBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKAnnotationBoxView.h; sourceTree = "<group>"; };
+		3F0995891B474768009C9605 /* BSKAnnotationBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKAnnotationBoxView.m; sourceTree = "<group>"; };
+		3F09958A1B474768009C9605 /* BSKAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKAnnotationView.h; sourceTree = "<group>"; };
+		3F09958B1B474768009C9605 /* BSKAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKAnnotationView.m; sourceTree = "<group>"; };
+		3F0995901B474786009C9605 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		3F0995911B474786009C9605 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		3F0995931B47479B009C9605 /* BSKCheckerboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKCheckerboardView.h; sourceTree = "<group>"; };
+		3F0995941B47479B009C9605 /* BSKCheckerboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKCheckerboardView.m; sourceTree = "<group>"; };
+		3F0995961B474813009C9605 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3F20C069188F46AA0085BD25 /* SRImageEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRImageEditorViewController.h; path = Library/SRImageEditorViewController.h; sourceTree = "<group>"; };
 		3F20C06A188F46AA0085BD25 /* SRImageEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRImageEditorViewController.m; path = Library/SRImageEditorViewController.m; sourceTree = "<group>"; };
 		3F20C06B188F46AA0085BD25 /* SRImageEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SRImageEditorViewController.xib; path = Library/SRImageEditorViewController.xib; sourceTree = "<group>"; };
+		3F24FB6A1B4DAA1E0014446F /* ShakeReportUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShakeReportUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F24FB6C1B4DAA1E0014446F /* ShakeReportUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShakeReportUITests.m; sourceTree = "<group>"; };
+		3F24FB6E1B4DAA1E0014446F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F2B548A17573D8200DF3193 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3F2B548C1757434100DF3193 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3F4F09F71758674F009EA80A /* SRMethodSwizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRMethodSwizzler.h; path = Library/SRMethodSwizzler.h; sourceTree = "<group>"; };
@@ -121,7 +167,7 @@
 		3F59711D1757217000971B9B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		3F59711F1757217000971B9B /* SRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRViewController.h; sourceTree = "<group>"; };
 		3F5971201757217000971B9B /* SRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SRViewController.m; sourceTree = "<group>"; };
-		3F5971271757217000971B9B /* ShakeReportTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShakeReportTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F5971271757217000971B9B /* ShakeReportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShakeReportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F5971281757217000971B9B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		3F5971301757217000971B9B /* ShakeReportTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShakeReportTests-Info.plist"; sourceTree = "<group>"; };
 		3F5971321757217000971B9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -131,6 +177,20 @@
 		3F597141175721DC00971B9B /* SRReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReporter.m; path = Library/SRReporter.m; sourceTree = "<group>"; };
 		3F597149175725F000971B9B /* UIWindow+SRReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+SRReporter.h"; path = "Library/UIWindow+SRReporter.h"; sourceTree = "<group>"; };
 		3F59714A175725F000971B9B /* UIWindow+SRReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+SRReporter.m"; path = "Library/UIWindow+SRReporter.m"; sourceTree = "<group>"; };
+		3F6748091B48648300CB1E49 /* SRReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRReport.h; sourceTree = "<group>"; };
+		3F67480A1B48648300CB1E49 /* SRReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRReport.m; sourceTree = "<group>"; };
+		3F67480C1B4872AF00CB1E49 /* SRReport+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SRReport+Network.h"; path = "Library/SRReport+Network.h"; sourceTree = "<group>"; };
+		3F67480D1B4872AF00CB1E49 /* SRReport+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SRReport+Network.m"; path = "Library/SRReport+Network.m"; sourceTree = "<group>"; };
+		3F6748251B4A1BAB00CB1E49 /* back21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back21.png; sourceTree = "<group>"; };
+		3F6748261B4A1BAB00CB1E49 /* back21@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back21@2x.png"; sourceTree = "<group>"; };
+		3F6748271B4A1BAB00CB1E49 /* cancel30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel30.png; sourceTree = "<group>"; };
+		3F6748281B4A1BAB00CB1E49 /* cancel30@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel30@2x.png"; sourceTree = "<group>"; };
+		3F6748291B4A1BAB00CB1E49 /* next21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next21.png; sourceTree = "<group>"; };
+		3F67482A1B4A1BAB00CB1E49 /* next21@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next21@2x.png"; sourceTree = "<group>"; };
+		3F67482B1B4A1BAB00CB1E49 /* painter11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = painter11.png; sourceTree = "<group>"; };
+		3F67482C1B4A1BAB00CB1E49 /* painter11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "painter11@2x.png"; sourceTree = "<group>"; };
+		3F67482D1B4A1BAB00CB1E49 /* send4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = send4.png; sourceTree = "<group>"; };
+		3F67482E1B4A1BAB00CB1E49 /* send4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "send4@2x.png"; sourceTree = "<group>"; };
 		3F7BEEBF17C8903B004020BD /* SRReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SRReportViewController.h; path = Library/SRReportViewController.h; sourceTree = "<group>"; };
 		3F7BEEC017C8903B004020BD /* SRReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRReportViewController.m; path = Library/SRReportViewController.m; sourceTree = "<group>"; };
 		3F7BEEC117C8903B004020BD /* SRReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SRReportViewController.xib; path = Library/SRReportViewController.xib; sourceTree = "<group>"; };
@@ -172,13 +232,22 @@
 		3FEE83AA17E839620037A60A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3FEE83AC17E839670037A60A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3FEE83AE17E8396D0037A60A /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		9C4663E7491868240CB844A3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F24FB671B4DAA1E0014446F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F5970FE1757217000971B9B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0995971B474813009C9605 /* Accelerate.framework in Frameworks */,
 				3FE19D7417EE3E40004F64B9 /* CFNetwork.framework in Frameworks */,
 				3FEA764617EAFE2A00FF9C5B /* Security.framework in Frameworks */,
 				3FEE83AF17E8396D0037A60A /* CoreVideo.framework in Frameworks */,
@@ -190,6 +259,7 @@
 				3F5971051757217000971B9B /* UIKit.framework in Frameworks */,
 				3F5971071757217000971B9B /* Foundation.framework in Frameworks */,
 				3F5971091757217000971B9B /* CoreGraphics.framework in Frameworks */,
+				21523850407466DD6E3E98BA /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,13 +285,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		35477F6A175DCB5F0069D3AC /* dependencies */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = dependencies;
-			sourceTree = "<group>";
-		};
 		35F4873B175B10AB00E8F4EA /* helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +299,19 @@
 		3F20C06E188F4CB40085BD25 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				3F6748241B4A1BAB00CB1E49 /* icons */,
+				3F0995901B474786009C9605 /* UIImage+ImageEffects.h */,
+				3F0995911B474786009C9605 /* UIImage+ImageEffects.m */,
+				3F0995841B474768009C9605 /* BSKAnnotationArrowView.h */,
+				3F0995851B474768009C9605 /* BSKAnnotationArrowView.m */,
+				3F0995861B474768009C9605 /* BSKAnnotationBlurView.h */,
+				3F0995871B474768009C9605 /* BSKAnnotationBlurView.m */,
+				3F0995881B474768009C9605 /* BSKAnnotationBoxView.h */,
+				3F0995891B474768009C9605 /* BSKAnnotationBoxView.m */,
+				3F09958A1B474768009C9605 /* BSKAnnotationView.h */,
+				3F09958B1B474768009C9605 /* BSKAnnotationView.m */,
+				3F0995931B47479B009C9605 /* BSKCheckerboardView.h */,
+				3F0995941B47479B009C9605 /* BSKCheckerboardView.m */,
 				3F7BEEBF17C8903B004020BD /* SRReportViewController.h */,
 				3F7BEEC017C8903B004020BD /* SRReportViewController.m */,
 				3F7BEEC117C8903B004020BD /* SRReportViewController.xib */,
@@ -246,17 +322,24 @@
 			name = composer;
 			sourceTree = "<group>";
 		};
+		3F24FB6B1B4DAA1E0014446F /* ShakeReportUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3F24FB6C1B4DAA1E0014446F /* ShakeReportUITests.m */,
+				3F24FB6E1B4DAA1E0014446F /* Info.plist */,
+			);
+			path = ShakeReportUITests;
+			sourceTree = "<group>";
+		};
 		3F5970F81757217000971B9B = {
 			isa = PBXGroup;
 			children = (
-				3FEE83AE17E8396D0037A60A /* CoreVideo.framework */,
-				3FEE83AC17E839670037A60A /* CoreMedia.framework */,
-				3FEE83AA17E839620037A60A /* AVFoundation.framework */,
-				3FEE83A817E8395B0037A60A /* AssetsLibrary.framework */,
 				3F59710A1757217000971B9B /* ShakeReport */,
 				3F59712E1757217000971B9B /* ShakeReportTests */,
+				3F24FB6B1B4DAA1E0014446F /* ShakeReportUITests */,
 				3F5971031757217000971B9B /* Frameworks */,
 				3F5971021757217000971B9B /* Products */,
+				A9D5CCDD2484DE085B6F7F60 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -264,7 +347,8 @@
 			isa = PBXGroup;
 			children = (
 				3F5971011757217000971B9B /* ShakeReport.app */,
-				3F5971271757217000971B9B /* ShakeReportTests.octest */,
+				3F5971271757217000971B9B /* ShakeReportTests.xctest */,
+				3F24FB6A1B4DAA1E0014446F /* ShakeReportUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,6 +356,11 @@
 		3F5971031757217000971B9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FEE83AE17E8396D0037A60A /* CoreVideo.framework */,
+				3FEE83AC17E839670037A60A /* CoreMedia.framework */,
+				3FEE83AA17E839620037A60A /* AVFoundation.framework */,
+				3FEE83A817E8395B0037A60A /* AssetsLibrary.framework */,
+				3F0995961B474813009C9605 /* Accelerate.framework */,
 				3FE19D7317EE3E40004F64B9 /* CFNetwork.framework */,
 				3FEA764517EAFE2A00FF9C5B /* Security.framework */,
 				3F2B548C1757434100DF3193 /* MessageUI.framework */,
@@ -280,6 +369,7 @@
 				3F5971061757217000971B9B /* Foundation.framework */,
 				3F5971081757217000971B9B /* CoreGraphics.framework */,
 				3F5971281757217000971B9B /* SenTestingKit.framework */,
+				15BCCE0E2B9B9336068A8F17 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -287,7 +377,6 @@
 		3F59710A1757217000971B9B /* ShakeReport */ = {
 			isa = PBXGroup;
 			children = (
-				35477F6A175DCB5F0069D3AC /* dependencies */,
 				3F59713F175721B800971B9B /* library */,
 				3F5971131757217000971B9B /* SRAppDelegate.h */,
 				3F5971141757217000971B9B /* SRAppDelegate.m */,
@@ -346,6 +435,10 @@
 				3F597141175721DC00971B9B /* SRReporter.m */,
 				3FE19D7C17EEDBC0004F64B9 /* SRVideoReporter.h */,
 				3FE19D7D17EEDBC0004F64B9 /* SRVideoReporter.m */,
+				3F6748091B48648300CB1E49 /* SRReport.h */,
+				3F67480A1B48648300CB1E49 /* SRReport.m */,
+				3F67480C1B4872AF00CB1E49 /* SRReport+Network.h */,
+				3F67480D1B4872AF00CB1E49 /* SRReport+Network.m */,
 				3F597149175725F000971B9B /* UIWindow+SRReporter.h */,
 				3F59714A175725F000971B9B /* UIWindow+SRReporter.m */,
 				3FE7F93517EBCE8C00DF0EFB /* SRReportLoadingView.h */,
@@ -361,6 +454,24 @@
 				3F4F09F81758674F009EA80A /* SRMethodSwizzler.m */,
 			);
 			name = Swizzler;
+			sourceTree = "<group>";
+		};
+		3F6748241B4A1BAB00CB1E49 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				3F6748251B4A1BAB00CB1E49 /* back21.png */,
+				3F6748261B4A1BAB00CB1E49 /* back21@2x.png */,
+				3F6748271B4A1BAB00CB1E49 /* cancel30.png */,
+				3F6748281B4A1BAB00CB1E49 /* cancel30@2x.png */,
+				3F6748291B4A1BAB00CB1E49 /* next21.png */,
+				3F67482A1B4A1BAB00CB1E49 /* next21@2x.png */,
+				3F67482B1B4A1BAB00CB1E49 /* painter11.png */,
+				3F67482C1B4A1BAB00CB1E49 /* painter11@2x.png */,
+				3F67482D1B4A1BAB00CB1E49 /* send4.png */,
+				3F67482E1B4A1BAB00CB1E49 /* send4@2x.png */,
+			);
+			name = icons;
+			path = Library/icons;
 			sourceTree = "<group>";
 		};
 		3FE19CB717ED2245004F64B9 /* Screen Record */ = {
@@ -404,16 +515,45 @@
 			name = http;
 			sourceTree = "<group>";
 		};
+		A9D5CCDD2484DE085B6F7F60 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				38D6D09EC4D0F30102425036 /* Pods.debug.xcconfig */,
+				9C4663E7491868240CB844A3 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3F24FB691B4DAA1E0014446F /* ShakeReportUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F24FB731B4DAA1E0014446F /* Build configuration list for PBXNativeTarget "ShakeReportUITests" */;
+			buildPhases = (
+				3F24FB661B4DAA1E0014446F /* Sources */,
+				3F24FB671B4DAA1E0014446F /* Frameworks */,
+				3F24FB681B4DAA1E0014446F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F24FB701B4DAA1E0014446F /* PBXTargetDependency */,
+			);
+			name = ShakeReportUITests;
+			productName = ShakeReportUITests;
+			productReference = 3F24FB6A1B4DAA1E0014446F /* ShakeReportUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		3F5971001757217000971B9B /* ShakeReport */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F5971391757217000971B9B /* Build configuration list for PBXNativeTarget "ShakeReport" */;
 			buildPhases = (
+				2974B65F4F60C6AA38C5E13D /* Check Pods Manifest.lock */,
 				3F5970FD1757217000971B9B /* Sources */,
 				3F5970FE1757217000971B9B /* Frameworks */,
 				3F5970FF1757217000971B9B /* Resources */,
+				8783FCFAF723CA89BB871AE2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -440,8 +580,8 @@
 			);
 			name = ShakeReportTests;
 			productName = ShakeReportTests;
-			productReference = 3F5971271757217000971B9B /* ShakeReportTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 3F5971271757217000971B9B /* ShakeReportTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -450,8 +590,15 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SR;
+				LastTestingUpgradeCheck = 0700;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Jayztemplier;
+				TargetAttributes = {
+					3F24FB691B4DAA1E0014446F = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 3F5971001757217000971B9B;
+					};
+				};
 			};
 			buildConfigurationList = 3F5970FC1757217000971B9B /* Build configuration list for PBXProject "ShakeReport" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -467,20 +614,38 @@
 			targets = (
 				3F5971001757217000971B9B /* ShakeReport */,
 				3F5971261757217000971B9B /* ShakeReportTests */,
+				3F24FB691B4DAA1E0014446F /* ShakeReportUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F24FB681B4DAA1E0014446F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F5970FF1757217000971B9B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				3F59710F1757217000971B9B /* InfoPlist.strings in Resources */,
+				3F67482F1B4A1BAB00CB1E49 /* back21.png in Resources */,
 				3F5971171757217000971B9B /* Default.png in Resources */,
+				3F6748361B4A1BAB00CB1E49 /* painter11@2x.png in Resources */,
 				3F5971191757217000971B9B /* Default@2x.png in Resources */,
+				3F6748321B4A1BAB00CB1E49 /* cancel30@2x.png in Resources */,
 				3F20C06D188F46AA0085BD25 /* SRImageEditorViewController.xib in Resources */,
 				3F59711B1757217000971B9B /* Default-568h@2x.png in Resources */,
+				3F6748331B4A1BAB00CB1E49 /* next21.png in Resources */,
+				3F6748311B4A1BAB00CB1E49 /* cancel30.png in Resources */,
+				3F6748371B4A1BAB00CB1E49 /* send4.png in Resources */,
+				3F6748351B4A1BAB00CB1E49 /* painter11.png in Resources */,
+				3F6748381B4A1BAB00CB1E49 /* send4@2x.png in Resources */,
+				3F6748301B4A1BAB00CB1E49 /* back21@2x.png in Resources */,
+				3F6748341B4A1BAB00CB1E49 /* next21@2x.png in Resources */,
 				3F59711E1757217000971B9B /* MainStoryboard.storyboard in Resources */,
 				3F7BEEC317C8903B004020BD /* SRReportViewController.xib in Resources */,
 			);
@@ -497,6 +662,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2974B65F4F60C6AA38C5E13D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		3F5971251757217000971B9B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -510,9 +690,32 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		8783FCFAF723CA89BB871AE2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3F24FB661B4DAA1E0014446F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F24FB6D1B4DAA1E0014446F /* ShakeReportUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F5970FD1757217000971B9B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -523,11 +726,14 @@
 				3F5971151757217000971B9B /* SRAppDelegate.m in Sources */,
 				3F5971211757217000971B9B /* SRViewController.m in Sources */,
 				3F597142175721DC00971B9B /* SRReporter.m in Sources */,
+				3F67480B1B48648300CB1E49 /* SRReport.m in Sources */,
+				3F09958C1B474768009C9605 /* BSKAnnotationArrowView.m in Sources */,
 				3F59714B175725F000971B9B /* UIWindow+SRReporter.m in Sources */,
 				3FE19D7E17EEDBC0004F64B9 /* SRVideoReporter.m in Sources */,
 				3FE19CDB17ED2245004F64B9 /* SRUITouch.m in Sources */,
 				3FE19CD417ED2245004F64B9 /* SRCameraRecorder.m in Sources */,
 				3FE19CD617ED2245004F64B9 /* SRDefines.m in Sources */,
+				3F0995951B47479B009C9605 /* BSKCheckerboardView.m in Sources */,
 				3FE19CDD17ED2245004F64B9 /* SRUIWindow.m in Sources */,
 				3FE19CDF17ED2245004F64B9 /* SRVideo.m in Sources */,
 				3F4F09F91758674F009EA80A /* SRMethodSwizzler.m in Sources */,
@@ -535,10 +741,15 @@
 				3F20C06C188F46AA0085BD25 /* SRImageEditorViewController.m in Sources */,
 				35F48739175B0F1100E8F4EA /* NSData+Base64.m in Sources */,
 				3FE19CD517ED2245004F64B9 /* SRCGUtils.m in Sources */,
+				3F09958D1B474768009C9605 /* BSKAnnotationBlurView.m in Sources */,
 				3FE19CD817ED2245004F64B9 /* SRScreenRecorder.m in Sources */,
 				35F4873E175B10C500E8F4EA /* NSString+HTML.m in Sources */,
 				3FE19CDE17ED2245004F64B9 /* SRUtils.m in Sources */,
+				3F67480E1B4872AF00CB1E49 /* SRReport+Network.m in Sources */,
+				3F09958F1B474768009C9605 /* BSKAnnotationView.m in Sources */,
 				3FE19CDC17ED2245004F64B9 /* SRUIViewRecorder.m in Sources */,
+				3F09958E1B474768009C9605 /* BSKAnnotationBoxView.m in Sources */,
+				3F0995921B474786009C9605 /* UIImage+ImageEffects.m in Sources */,
 				3FE19CE017ED2245004F64B9 /* SRVideoWriter.m in Sources */,
 				3FE7F93717EBCE8C00DF0EFB /* SRReportLoadingView.m in Sources */,
 				3F7BEEC217C8903B004020BD /* SRReportViewController.m in Sources */,
@@ -573,6 +784,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3F24FB701B4DAA1E0014446F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F5971001757217000971B9B /* ShakeReport */;
+			targetProxy = 3F24FB6F1B4DAA1E0014446F /* PBXContainerItemProxy */;
+		};
 		3F59712D1757217000971B9B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3F5971001757217000971B9B /* ShakeReport */;
@@ -608,6 +824,63 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3F24FB711B4DAA1E0014446F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = ShakeReportUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeremytemplier.ShakeReportUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ShakeReport;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		3F24FB721B4DAA1E0014446F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = ShakeReportUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeremytemplier.ShakeReportUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ShakeReport;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 		3F5971371757217000971B9B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -666,6 +939,7 @@
 		};
 		3F59713A1757217000971B9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38D6D09EC4D0F30102425036 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -683,6 +957,7 @@
 		};
 		3F59713B1757217000971B9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C4663E7491868240CB844A3 /* Pods.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -705,13 +980,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReportTests/ShakeReportTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -722,19 +997,27 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShakeReport/ShakeReport-Prefix.pch";
 				INFOPLIST_FILE = "ShakeReportTests/ShakeReportTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F24FB731B4DAA1E0014446F /* Build configuration list for PBXNativeTarget "ShakeReportUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F24FB711B4DAA1E0014446F /* Debug */,
+				3F24FB721B4DAA1E0014446F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		3F5970FC1757217000971B9B /* Build configuration list for PBXProject "ShakeReport" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

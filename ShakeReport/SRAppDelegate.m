@@ -14,18 +14,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    SRReporter *reporter = [SRReporter reporter];
+    SRReporter *reporter = [SRReporter reporter];
 //    [reporter setDefaultEmailAddress:@"jayztemplier@example.com"];
-//    [reporter setCustomInformationBlock:^NSString *{
-//        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
-//    }];
-//    [reporter startListener];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/"];
+    [reporter setApplicationToken:@"yke72hBTsYsDggYpQ-uUHw"];
+    [reporter setCustomInformationBlock:^NSString *{
+        return [NSString stringWithFormat:@"Application: Sample Application, User: Jayztemplier, Device Name: %@", [[UIDevice currentDevice] name]];
+    }];
+    [reporter startListenerConnectedToBackendURL:url];
     
     // Send data to a Server instead of displaying the mail composer
-    SRVideoReporter *reporter = [SRVideoReporter reporter];
-    NSURL *url = [NSURL URLWithString:@"http://shakereport_url.com/"];
-    [reporter setApplicationToken:@"token_of_the_application"];
-    [reporter startListenerConnectedToBackendURL:url];
+//    SRVideoReporter *reporter = [SRVideoReporter reporter];
+//    NSURL *url = [NSURL URLWithString:@"http://shakereport_url.com/"];
+//    [reporter setApplicationToken:@"token_of_the_application"];
+//    [reporter startListenerConnectedToBackendURL:url];
 //    [reporter startScreenRecorderWithMaxDurationPerVideo:30];
     return YES;
 }

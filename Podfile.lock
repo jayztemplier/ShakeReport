@@ -1,0 +1,10 @@
+PODS:
+  - MWWindow (0.0.1)
+
+DEPENDENCIES:
+  - MWWindow (~> 0.0)
+
+SPEC CHECKSUMS:
+  MWWindow: 5a1fcd5b2ea6a4bea890a943b732c568504854e7
+
+COCOAPODS: 0.36.4

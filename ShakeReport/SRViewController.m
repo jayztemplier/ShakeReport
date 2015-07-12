@@ -7,6 +7,7 @@
 //
 
 #import "SRViewController.h"
+#import "SRReporter.h"
 
 @interface SRViewController ()
 
@@ -28,9 +29,10 @@
 
 - (IBAction)crashPressed:(id)sender
 {
-    NSString *nilString;
-    //static analyzer find an issue here, but it's an example to make the application crash :)
-    NSDictionary* d = @{@"aKey": nilString};
-    NSLog(@"%@",d);
+    [[SRReporter reporter] displayReportComposer];
+//    NSString *nilString;
+//    //static analyzer find an issue here, but it's an example to make the application crash :)
+//    NSDictionary* d = @{@"aKey": nilString};
+//    NSLog(@"%@",d);
 }
 @end
