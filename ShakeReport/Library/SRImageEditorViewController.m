@@ -180,9 +180,9 @@ UIImage *BSKImageWithDrawing(CGSize size, void (^drawingCommands)())
             annotationInProgress.annotationFillColor = _currentColor;
             
             if (insertBelowCheckerboard) {
-                [self.view insertSubview:annotationInProgress belowSubview:self.gridOverlay];
+                [self.screenshotImageView insertSubview:annotationInProgress belowSubview:self.gridOverlay];
             } else {
-                [self.view addSubview:annotationInProgress];
+                [self.screenshotImageView addSubview:annotationInProgress];
             }
             annotationInProgress.startedDrawingAtPoint = annotationFrame.origin;
         }

@@ -120,14 +120,13 @@ void uncaughtExceptionHandler(NSException *exception) {
             [navController.navigationBar setTranslucent:YES];
         }
 
-        if (_composerWindow) {
-            [_composerWindow removeFromSuperview];
+        if (!_composerWindow) {
+            _composerWindow = [[MWWindow alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+            _composerWindow.clipsToBounds = YES;
+            [_composerWindow setPanGestureEnabled:NO];
+            [_composerWindow setTapToCloseEnabled:NO];
+            _composerWindow.windowLevel = UIWindowLevelStatusBar;
         }
-        _composerWindow = [[MWWindow alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-        _composerWindow.clipsToBounds = YES;
-        [_composerWindow setPanGestureEnabled:NO];
-        [_composerWindow setTapToCloseEnabled:NO];
-        _composerWindow.windowLevel = UIWindowLevelStatusBar;
         _composerWindow.rootViewController = navController;
         [_composerWindow makeKeyAndVisible];
         [_composerWindow presentWindowAnimated:YES completion:^{
@@ -152,8 +151,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (_composerWindow) {
         __weak __typeof__(self) weakSelf = self;
         [_composerWindow dismissWindowAnimated:YES completion:^{
-//            UIWindow *window = [[UIApplication sharedApplication].delegate window];
-//            [window makeKeyWindow];
             weakSelf.composerDisplayed = NO;
         }];
     }
